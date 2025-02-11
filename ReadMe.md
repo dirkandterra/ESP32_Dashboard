@@ -1,8 +1,8 @@
 # _ESP_Dashboard_  
 
-_This project uses the a Nano with a MCP2515 to drive a 2004 Dodge Intrepid Dashboard._
+_This project uses the a CANBus and an ESP32 to drive a 2004 Dodge Intrepid Dashboard._
 
-![IntrepidSchematic](/img/NanoCluster.png)  
+![IntrepidSchematic](/img/ESPCluster.png)  
 
 ## How to use  
 
@@ -10,38 +10,29 @@ _This project uses the a Nano with a MCP2515 to drive a 2004 Dodge Intrepid Dash
 * 2004 Dodge Intrepid Instrument Panel
 * Connection:  
 
-| Signal    | Intrepid  | Nano |
-|-----------|-----------|------|
-| 5V        | 5V		| 5V   |
-| GLDATA    | GLDATA	| D4   |
-| GLCLK     | GLCLK 	| D5   |
-| LightLatch| LightLatch| D6   |
-| Gauge CS  | Gauge CS  | D7   |
-| VFDDATA   | VFDDATA   | D8   |
-| VFDCLK	| VFDCLK	| D9   |
-| VFD Pls	| VFD Pls	| D10  |
-| Backlight | UC_LMP_DRV| D2   |
-| PB Input  | ODO PB    | D3   |
-| L Turn    | C2-5		| A0   |
-| R Turn    | C1-8      | A1   |
-| HighBeam  | C1-10     | A2   |
-| OilPress  | C2-10     | A3   |
-| ABS		| ??		| A4   |
-| Airbag    | ??		| A5   |
-| GND       | GND       | D7   |
+| Signal    | Intrepid  | ESP32 |
+|-----------|-----------|-------|
+| 5V        | 5V		|  5V   |
+| GLDATA    | GLDATA	|  D13  |
+| GLCLK     | GLCLK 	|  D14  |
+| LightLatch| LightLatch|  D6   |
+| Gauge CS  | Gauge CS  |  D7   |
+| VFDDATA   | VFDDATA   |  D13  |
+| VFDCLK	| VFDCLK	|  D14  |
+| VFD Pls	| VFD Pls	|  D12  |
+| Backlight | UC_LMP_DRV|  D15  |
+| PB Input  | ODO PB    |  D0   |
+| L Turn    | C2-5		|  D21  |
+| R Turn    | C1-8      |  D22  |
+| HighBeam  | C1-10     |  D23  |
+| OilPress  | C2-10     |  D2   |
+| ABS		| ??		|  D18  |
+| Airbag    | ??		|  D19  |
+| GND       | GND       |  GND  |
+| CAN TX    |			|  D5	|
+| CAN RX	|			|  D4	|
 
-* MCP2515 Breakout Board
-* Connection: 
 
-| MCP2515   | Nano |
-|-----------|------|
-| INT       |  -   |
-| SCK		| D13  |
-| MOSI      | D11  |
-| MISO	    | D12  |
-| CS to 5V  |  -   |
-| GND       | GND  |
-| 5V    	| 5V   |
 
 ### Arduino Library Needed  
 
