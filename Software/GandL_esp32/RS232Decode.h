@@ -10,6 +10,11 @@
 #include "pins_arduino.h"  // for digitalPinToBitMask, etc
 #endif
 
+#define L_LATCH   25
+#define G_CHIPSEL 26
+#define VFD_LOAD  12
+#define HSPI_MOSI 13
+#define HSPI_SCLK 14
 
 	void senddispToVFD(void);
 	char storedispdata(char);
@@ -28,7 +33,7 @@
 	void sendVFDDimming(void);
 	extern unsigned char gaugeString[8];
 	extern unsigned char lightString[2];
-	extern unsigned char vfdString[8];
+	extern char vfdString[8];
 
 
 

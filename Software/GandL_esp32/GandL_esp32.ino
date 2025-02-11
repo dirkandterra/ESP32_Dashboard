@@ -1,6 +1,15 @@
-#include <avr/io.h>
+//#include <avr/io.h>
 #include "GandL.h"
 #include "IntrVFD.h"
+
+#define HBEAM   23
+#define RTURN   22
+#define LTURN   21
+#define AIRBAG  19
+#define ABS     18
+#define OIL     2
+#define BKLIGHT 15
+#define PB      0
 
 uint32_t timerGaugeAndLights=0;
 uint32_t weatherInfoUpdate=0;
@@ -29,8 +38,16 @@ void handle232(void);
 double del = 100000;
 
 void setup() { 
-  DDRD |= 0xF0; 
-  DDRB |= 0x07;
+  pinMode(HBEAM,OUTPUT);
+  pinMode(RTURN,OUTPUT);
+  pinMode(LTURN,OUTPUT);
+  pinMode(AIRBAG,OUTPUT);
+  pinMode(ABS,OUTPUT);
+  pinMode(OIL,OUTPUT);
+  pinMode(BKLIGHT,OUTPUT);
+
+  pinMode(PB,INPUT);
+
   Serial.begin(38400); 
   rx232.rxPtr=0;
   Serial.println("Starting...");
@@ -169,7 +186,7 @@ void handle232(){
         rx232.data[1]=' ';  
         Serial.println(temp16);  
         sendInfo(1, temp16);
-        printTextToVFD(rx232.data,0,6,J_LEFT,vfd);
+        printTextToVFD((char *)rx232.data,0,6,J_LEFT,vfd);
         sendVFD(rx232.data,1);
         break;
 

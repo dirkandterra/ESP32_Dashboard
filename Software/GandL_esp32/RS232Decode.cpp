@@ -1,223 +1,125 @@
 
 #include "RS232Decode.h"
 #include <string.h>
+#include <SPI.h>
 
 #define DELAYTIME 5	//in uS
 
 char z,k;
 char temp=0;
 unsigned char datachar;
+uint16_t data16;
 char DispString[20];
 char bytecounter;
 char dispcycle;
 unsigned char gaugeString[8];
 unsigned char lightString[2];
-unsigned char vfdString[8];
+char vfdString[8];
 //char vfdDimming=0xD0;
 char vfdDimming=0x40;
-
+SPIClass SPI1(HSPI);
+SPISettings spiSettings(1000000,MSBFIRST,SPI_MODE1);
 void VFDData(uint8_t in);
-void GLData(uint8_t in);
 
 //******************
  
 //******************
 
+void DecodeInit(){
+  pinMode(L_LATCH,OUTPUT);
+  pinMode(G_CHIPSEL,OUTPUT);
+  pinMode(VFD_LOAD,OUTPUT);
+  
+  SPI1.begin(HSPI_SCLK,-1, HSPI_MOSI);
+  SPI1.setBitOrder(MSBFIRST);
+  SPI1.setFrequency(1000000);
+  SPI1.setDataMode(SPI_MODE1);
+}
+
+
 //-_-_-_-_-_-_-_-_ Send Dimming Info to VFD -_-_-_-_-_-_-
 void sendVFDDimming()
 {
-  PORTB &= B11111011;
-	VFDData(1);
-	pulseLCDClk();			//send 11 first for dimming data
-	VFDData(1);
-	pulseLCDClk();
-
-	VFDData(1);
-	pulseLCDClk();			//not using last 2 bits of dimming data
-	VFDData(1);
-	pulseLCDClk();
-	datachar=vfdDimming;
-	for (k=0;k<8;k++)
-	{
-
-		temp = 0X01 & datachar;				//feeds in 8 bits, msb first and clocks
-		VFDData(0);
-		if (temp != 0)
-		{
-			VFDData(1);
-		}
-		datachar = datachar>>1;
-		pulseLCDClk();
-				
-	}
-
+  SPI.beginTransaction(spiSettings);
+  data16=0x0F00+vfdDimming;
+  SPI.transfer16(data16);
+  SPI.endTransaction();
 	pulseVFDLoad();
 }
 //############### Send Info to VFD##################
 void senddispToVFD()
 {	
-  PORTB &= B11111011;
-	VFDData(1);
-	pulseLCDClk();
-	VFDData(0);				// send '10' first for digit data
-	pulseLCDClk();
+  datachar = 2;
+  SPI.beginTransaction(spiSettings);
+  SPI.transfer(datachar);
   Serial.println("************************");
 	for (z=0;z<8;z++)							//there will be (8) 8 bit xfers
 	{	
-    Serial.println(vfdString[z],HEX);
-		datachar=vfdString[z];								
-		for (k=0;k<8;k++)
-		{
-
-			temp = 0X80 & datachar;				//feeds in 8 bits, msb first and clocks
-			VFDData(0);
-			if (temp != 0)
-			{
-				VFDData(1);
-			}
-			datachar = datachar<<1;
-			pulseLCDClk();				
-		}
+    data16=0;
+    //Serial.println(vfdString[z],HEX);
+    data16 = (vfdString[z++]<<8);
+    data16 +=vfdString[z];
+		SPI.transfer16(data16);								
+    //send byte
 	}
+  SPI.endTransaction();
 	pulseVFDLoad();
 
 
 }
 
-void pulseLCDClk()								//clock pulse duration and dashDelay
-{		
-	PORTB &= B11111101;
-	dashDelay(DELAYTIME);
-	PORTB |= B00000010;
-	dashDelay(DELAYTIME);	
-}
-
 void pulseVFDLoad()
 {
-	PORTB |= B00000100;
+	digitalWrite(VFD_LOAD,1);
 	dashDelay(DELAYTIME);
-	//PORTB &= B11111011;
 }
 
 void sendToGauges()
 {
-	PORTD |= B10000000;							//Chip select High
-	for (z=0;z<8;z++)							//there will be (4) 10 bit xfers
-	{	
-		temp=gaugeString[z]&0x02;
-		GLData(0);
-		if (temp != 0)
-		{
-			GLData(1);
-		}
-		pulseGLClk();	
-		temp=gaugeString[z]&0x01;
-		GLData(0);
-		if (temp != 0)
-		{
-			GLData(1);
-		}
-		pulseGLClk();
-		z++;
-		datachar=gaugeString[z];						
-		for (k=0;k<8;k++)
-		{
-			temp = 0X80 & datachar;				//feeds in 8 bits, msb first and clocks
-			GLData(0);
-			if (temp != 0)
-			{
-				GLData(1);
-			}
-			datachar = datachar<<1;
-			pulseGLClk();				
-		}
-	}
-	PORTD &= B11101111;						//Ensure clock is low
-	PORTD &= B01111111;						//Chip select low
+	digitalWrite(G_CHIPSEL,1);
+	//pack these (4) 10 bit xfers into (2) 16 bit xfer and one 8
+	data16 = ((gaugeString[0]&0x03)<<14)&0xC000;
+  data16 += gaugeString[1]<<4;
+  data16 +=(gaugeString[2]&0x03)<<2;
+  data16 +=gaugeString[3]>>4;
+  SPI.beginTransaction(spiSettings);
+  SPI.transfer16(data16);
 
+  data16 = (gaugeString[3]<<12)&0xFC00;
+  data16 += (gaugeString[4]&0x3)<<10;
+  data16 += gaugeString[5]<<2;
+  data16 += gaugeString[6]&0x03;
+  SPI.transfer16(data16);
+  
+  datachar = gaugeString[7];
+  SPI.transfer(datachar);					
+  SPI.endTransaction();	
+	digitalWrite(G_CHIPSEL,0);
 }
 
 
 void sendToLights()
 {
-		temp=lightString[0]&0x08;
-		GLData(0);
-		if (temp != 0)
-		{
-			GLData(1);
-		}
-		pulseGLClk();
-		temp=lightString[0]&0x04;
-		GLData(0);
-		if (temp != 0)
-		{
-			GLData(1);
-		}
-		pulseGLClk();	
-		temp=lightString[0]&0x02;
-		GLData(0);
-		if (temp != 0)
-		{
-			GLData(1);
-		}
-		pulseGLClk();	
-		temp=lightString[0]&0x01;
-		GLData(0);
-		if (temp != 0)
-		{
-			GLData(1);
-		}
-		pulseGLClk();
-		datachar=lightString[1];						
-		for (k=0;k<8;k++)
-		{
-			temp = 0X80 & datachar;				//feeds in 8 bits, msb first and clocks
-			GLData(0);
-			if (temp != 0)
-			{
-				GLData(1);
-			}
-			datachar = datachar<<1;
-			pulseGLClk();				
-		}
-	
+  data16 = lightString[0]<<8;
+  data16 += lightString[1];
+  SPI.beginTransaction(spiSettings);
+  SPI.transfer16(data16);
+  SPI.endTransaction();	
 	pulseLLatch();
 
 }
 
-void pulseGLClk()								//clock pulse duration and dashDelay
-{	
-	dashDelay(DELAYTIME);
-	PORTD |= B00010000;							//clock high
-	dashDelay(DELAYTIME);
-	PORTD &= B11101111;							//clock low
-}
-
 void pulseLLatch()								//clock pulse duration and dashDelay
 {	
-	PORTD &= B10111111;	
 	dashDelay(DELAYTIME);
-	PORTD |= B01000000;
+	digitalWrite(L_LATCH,1);
 	dashDelay(DELAYTIME);
-	PORTD &= B10111111;		
+	digitalWrite(L_LATCH,0);	
 }
 
 void dashDelay(char i)								//dashDelay routine
 {
 	delayMicroseconds(i);
-}
-
-void VFDData(uint8_t in){
-	if(in)
-		PORTB |= B00000001;
-	else
-		PORTB &= B11111110;
-}
-void GLData(uint8_t in){
-	if(in)
-		PORTD |= B00100000;
-	else
-		PORTD &= B11011111;
 }
 
 /*
