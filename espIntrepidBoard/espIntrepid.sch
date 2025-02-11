@@ -3809,6 +3809,9 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <part name="GND4" library="supply1" deviceset="GND" device=""/>
 <part name="P+7" library="supply1" deviceset="+5V" device=""/>
 <part name="U6" library="DR" deviceset="LTV-817" device=""/>
+<part name="JP7" library="pinhead" library_urn="urn:adsk.eagle:library:325" deviceset="PINHD-1X2" device="" package3d_urn="urn:adsk.eagle:package:22435/2"/>
+<part name="P+8" library="supply1" deviceset="+12V" device=""/>
+<part name="GND10" library="supply1" deviceset="GND" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -3898,8 +3901,8 @@ D10 - VFD Load</text>
 <instance part="GND6" gate="1" x="68.46" y="20.2" smashed="yes">
 <attribute name="VALUE" x="65.92" y="17.66" size="1.778" layer="96"/>
 </instance>
-<instance part="GND7" gate="1" x="164.98" y="40.52" smashed="yes">
-<attribute name="VALUE" x="162.44" y="37.98" size="1.778" layer="96"/>
+<instance part="GND7" gate="1" x="167.64" y="38.1" smashed="yes">
+<attribute name="VALUE" x="165.1" y="35.56" size="1.778" layer="96"/>
 </instance>
 <instance part="Q7" gate="G$1" x="138.88" y="111.62" smashed="yes">
 <attribute name="NAME" x="131.26" y="119.24" size="1.778" layer="95"/>
@@ -3948,6 +3951,14 @@ D10 - VFD Load</text>
 <instance part="U6" gate="G$1" x="58.42" y="60.96" smashed="yes">
 <attribute name="NAME" x="63.5" y="63.5" size="1.778" layer="95"/>
 </instance>
+<instance part="JP7" gate="G$1" x="233.68" y="20.32" smashed="yes">
+<attribute name="NAME" x="227.33" y="26.035" size="1.778" layer="95"/>
+<attribute name="VALUE" x="227.33" y="15.24" size="1.778" layer="96"/>
+</instance>
+<instance part="P+8" gate="1" x="220.98" y="22.86" smashed="yes">
+<attribute name="VALUE" x="218.44" y="17.78" size="1.778" layer="96" rot="R90"/>
+</instance>
+<instance part="GND10" gate="1" x="220.98" y="12.7" smashed="yes"/>
 </instances>
 <busses>
 </busses>
@@ -3964,14 +3975,6 @@ D10 - VFD Load</text>
 <pinref part="GND6" gate="1" pin="GND"/>
 <wire x1="91.44" y1="22.86" x2="68.46" y2="22.86" width="0.1524" layer="91"/>
 <wire x1="68.46" y1="22.86" x2="68.46" y2="22.74" width="0.1524" layer="91"/>
-</segment>
-<segment>
-<pinref part="U1" gate="G$1" pin="GND1"/>
-<wire x1="139.7" y1="40.64" x2="160.02" y2="40.64" width="0.1524" layer="91"/>
-<wire x1="160.02" y1="40.64" x2="160.02" y2="43.06" width="0.1524" layer="91"/>
-<pinref part="GND7" gate="1" pin="GND"/>
-<wire x1="160.02" y1="43.18" x2="160.02" y2="43.06" width="0.1524" layer="91"/>
-<wire x1="160.02" y1="43.06" x2="164.98" y2="43.06" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="U1" gate="G$1" pin="GND2"/>
@@ -4022,6 +4025,18 @@ D10 - VFD Load</text>
 <pinref part="U6" gate="G$1" pin="P$2"/>
 <pinref part="GND4" gate="1" pin="GND"/>
 <wire x1="58.42" y1="58.42" x2="55.88" y2="58.42" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="U1" gate="G$1" pin="GND1"/>
+<wire x1="139.7" y1="40.64" x2="167.64" y2="40.64" width="0.1524" layer="91"/>
+<pinref part="GND7" gate="1" pin="GND"/>
+</segment>
+<segment>
+<pinref part="JP7" gate="G$1" pin="2"/>
+<wire x1="231.14" y1="20.32" x2="226.06" y2="20.32" width="0.1524" layer="91"/>
+<wire x1="226.06" y1="20.32" x2="226.06" y2="15.24" width="0.1524" layer="91"/>
+<pinref part="GND10" gate="1" pin="GND"/>
+<wire x1="226.06" y1="15.24" x2="220.98" y2="15.24" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="+5V" class="0">
@@ -4083,6 +4098,13 @@ D10 - VFD Load</text>
 <wire x1="78.74" y1="86.36" x2="83.82" y2="86.36" width="0.1524" layer="91"/>
 <wire x1="83.82" y1="86.36" x2="83.82" y2="91.44" width="0.1524" layer="91"/>
 <junction x="83.82" y="91.44"/>
+</segment>
+<segment>
+<pinref part="P+8" gate="1" pin="+12V"/>
+<wire x1="220.98" y1="20.32" x2="223.52" y2="20.32" width="0.1524" layer="91"/>
+<wire x1="223.52" y1="20.32" x2="223.52" y2="22.86" width="0.1524" layer="91"/>
+<pinref part="JP7" gate="G$1" pin="1"/>
+<wire x1="223.52" y1="22.86" x2="231.14" y2="22.86" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$12" class="0">
