@@ -50,21 +50,21 @@ void setup() {
 
   DecodeInit();
 
-  Serial.begin(38400); 
+  Serial.begin(115200); 
   rx232.rxPtr=0;
   Serial.println("Starting...");
   startupTest=millis()+3000;
-    sendInfo(0, 700);
-    sendInfo(1, 1200);
-    sendInfo(2, 100);
-    sendInfo(3, 100);
-    sendInfo(4, 0xFFFF);
-    printTextToVFD("888888",0,6,J_LEFT,vfd);
-    sendVFD(vfd,1);
+  sendInfo(0, 700);
+  sendInfo(1, 1200);
+  sendInfo(2, 100);
+  sendInfo(3, 100);
+  sendInfo(4, 0xFFFF);
+  printTextToVFD("888888",0,6,J_LEFT,vfd);
+  sendVFD(vfd,1);
+  
 }
 
 void loop() {
-  //sendInfo(0, 20);
   if(stringComplete){
     stringComplete=false;
     handle232();
@@ -207,6 +207,9 @@ void handle232(){
         break;
       case 'B':
         sendInfo(5,590);
+        break;
+      case 'v':
+        Serial.println("V0.99");
         break;
       default:
         break;

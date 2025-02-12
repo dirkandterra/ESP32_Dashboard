@@ -17,8 +17,7 @@ unsigned char lightString[2];
 char vfdString[8];
 //char vfdDimming=0xD0;
 char vfdDimming=0x40;
-SPIClass SPI1(HSPI);
-SPISettings spiSettings(2000000,MSBFIRST,SPI_MODE1);
+SPISettings spiSettings(100000,MSBFIRST,SPI_MODE1);
 void VFDData(uint8_t in);
 
 //******************

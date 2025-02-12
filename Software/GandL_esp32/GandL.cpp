@@ -27,8 +27,7 @@ int gypsyMath2(int in);
 void vfdPrep(void);
 
 
-int sendInfo(uint8_t gauge, uint16_t value){
-	
+void sendInfo(uint8_t gauge, uint16_t value){
 	switch(gauge){
 		
 		case 0:
@@ -60,7 +59,6 @@ int sendInfo(uint8_t gauge, uint16_t value){
 			lightData=(int)value;
 			break;
 	}
-
 }
 
 //****************************************************
@@ -91,7 +89,7 @@ void updateGuages_Lights(){
   sendToLights();
 }
 //####################################################
-int sendVFD(uint8_t *c, uint8_t n){
+void sendVFD(uint8_t *c, uint8_t n){
 	clearDisp();
     /*vfd[6]=c[7];
     vfd[7]=c[8];
@@ -114,7 +112,7 @@ int sendVFD(uint8_t *c, uint8_t n){
 }
 
 //####################################################
-int testVFD(uint16_t value){
+void testVFD(uint16_t value){
 	uint8_t carry=0, oldcarry=0;
 	//clearDisp();
 	
