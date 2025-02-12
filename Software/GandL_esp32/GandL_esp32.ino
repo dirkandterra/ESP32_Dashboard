@@ -48,6 +48,8 @@ void setup() {
 
   pinMode(PB,INPUT);
 
+  DecodeInit();
+
   Serial.begin(38400); 
   rx232.rxPtr=0;
   Serial.println("Starting...");

@@ -18,7 +18,7 @@ char vfdString[8];
 //char vfdDimming=0xD0;
 char vfdDimming=0x40;
 SPIClass SPI1(HSPI);
-SPISettings spiSettings(1000000,MSBFIRST,SPI_MODE1);
+SPISettings spiSettings(2000000,MSBFIRST,SPI_MODE1);
 void VFDData(uint8_t in);
 
 //******************
@@ -26,14 +26,11 @@ void VFDData(uint8_t in);
 //******************
 
 void DecodeInit(){
-  pinMode(L_LATCH,OUTPUT);
-  pinMode(G_CHIPSEL,OUTPUT);
-  pinMode(VFD_LOAD,OUTPUT);
+  pinMode((uint8_t)L_LATCH,OUTPUT);
+  pinMode((uint8_t)G_CHIPSEL,OUTPUT);
+  pinMode((uint8_t)VFD_LOAD,OUTPUT);
   
-  SPI1.begin(HSPI_SCLK,-1, HSPI_MOSI);
-  SPI1.setBitOrder(MSBFIRST);
-  SPI1.setFrequency(1000000);
-  SPI1.setDataMode(SPI_MODE1);
+  SPI.begin((uint8_t)HSPI_SCLK,-1, (uint8_t)HSPI_MOSI);
 }
 
 
@@ -70,13 +67,13 @@ void senddispToVFD()
 
 void pulseVFDLoad()
 {
-	digitalWrite(VFD_LOAD,1);
+	gpio_set_level(HSPI_SCLK,HIGH);
 	dashDelay(DELAYTIME);
 }
 
 void sendToGauges()
 {
-	digitalWrite(G_CHIPSEL,1);
+	gpio_set_level(G_CHIPSEL,HIGH);
 	//pack these (4) 10 bit xfers into (2) 16 bit xfer and one 8
 	data16 = ((gaugeString[0]&0x03)<<14)&0xC000;
   data16 += gaugeString[1]<<4;
@@ -94,7 +91,7 @@ void sendToGauges()
   datachar = gaugeString[7];
   SPI.transfer(datachar);					
   SPI.endTransaction();	
-	digitalWrite(G_CHIPSEL,0);
+	gpio_set_level(G_CHIPSEL,LOW);
 }
 
 
@@ -112,9 +109,9 @@ void sendToLights()
 void pulseLLatch()								//clock pulse duration and dashDelay
 {	
 	dashDelay(DELAYTIME);
-	digitalWrite(L_LATCH,1);
+	gpio_set_level(L_LATCH,1);
 	dashDelay(DELAYTIME);
-	digitalWrite(L_LATCH,0);	
+	gpio_set_level(L_LATCH,0);	
 }
 
 void dashDelay(char i)								//dashDelay routine

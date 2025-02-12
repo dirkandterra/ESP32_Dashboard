@@ -10,11 +10,11 @@
 #include "pins_arduino.h"  // for digitalPinToBitMask, etc
 #endif
 
-#define L_LATCH   25
-#define G_CHIPSEL 26
-#define VFD_LOAD  12
-#define HSPI_MOSI 13
-#define HSPI_SCLK 14
+#define L_LATCH   GPIO_NUM_25
+#define G_CHIPSEL GPIO_NUM_26
+#define VFD_LOAD  GPIO_NUM_12
+#define HSPI_MOSI GPIO_NUM_13
+#define HSPI_SCLK GPIO_NUM_14
 
 	void senddispToVFD(void);
 	char storedispdata(char);
@@ -26,6 +26,7 @@
 	void pulseLLatch(void);
 	void pulseGLClk(void);
 	void dashDelay(char);
+  void DecodeInit(void);
   
 
 	void sendToGauges(void);
