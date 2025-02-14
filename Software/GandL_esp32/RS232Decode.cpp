@@ -36,6 +36,7 @@ void DecodeInit(){
 //-_-_-_-_-_-_-_-_ Send Dimming Info to VFD -_-_-_-_-_-_-
 void sendVFDDimming()
 {
+	//gpio_set_level(VFD_LOAD,LOW);
   SPI.beginTransaction(spiSettings);
   data16=0x0F00+vfdDimming;
   SPI.transfer16(data16);
@@ -44,7 +45,9 @@ void sendVFDDimming()
 }
 //############### Send Info to VFD##################
 void senddispToVFD()
-{	
+{
+  gpio_set_level(VFD_LOAD,LOW);
+  dashDelay(DELAYTIME);
   datachar = 2;
   SPI.beginTransaction(spiSettings);
   SPI.transfer(datachar);
@@ -66,13 +69,15 @@ void senddispToVFD()
 
 void pulseVFDLoad()
 {
-	gpio_set_level(HSPI_SCLK,HIGH);
-	dashDelay(DELAYTIME);
+  dashDelay(DELAYTIME);
+	gpio_set_level(VFD_LOAD,HIGH);
+	
 }
 
 void sendToGauges()
 {
 	gpio_set_level(G_CHIPSEL,HIGH);
+  dashDelay(DELAYTIME);
 	//pack these (4) 10 bit xfers into (2) 16 bit xfer and one 8
 	data16 = ((gaugeString[0]&0x03)<<14)&0xC000;
   data16 += gaugeString[1]<<4;
@@ -119,11 +124,12 @@ void dashDelay(char i)								//dashDelay routine
 }
 
 /*
-  G   CS    D7
-  L   Latch D6
-  GL  Data  D5
   GL  Clk   D4
-  VFD Load  D10
-  VFD CLK   D9
+  GL  Data  D5
+  L   Latch D6
+  G   CS    D7
   VFD Data  D8
+  VFD CLK   D9
+  VFD Load  D10
+  
 */
