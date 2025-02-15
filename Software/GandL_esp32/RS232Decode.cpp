@@ -16,8 +16,8 @@ unsigned char gaugeString[8];
 unsigned char lightString[2];
 char vfdString[8];
 //char vfdDimming=0xD0;
-char vfdDimming=0x40;
-SPISettings spiSettings(100000,MSBFIRST,SPI_MODE1);
+char vfdDimming=0x02;
+SPISettings spiSettings(200000,MSBFIRST,SPI_MODE1);
 void VFDData(uint8_t in);
 
 //******************
@@ -36,7 +36,6 @@ void DecodeInit(){
 //-_-_-_-_-_-_-_-_ Send Dimming Info to VFD -_-_-_-_-_-_-
 void sendVFDDimming()
 {
-	//gpio_set_level(VFD_LOAD,LOW);
   SPI.beginTransaction(spiSettings);
   data16=0x0F00+vfdDimming;
   SPI.transfer16(data16);
@@ -46,8 +45,6 @@ void sendVFDDimming()
 //############### Send Info to VFD##################
 void senddispToVFD()
 {
-  gpio_set_level(VFD_LOAD,LOW);
-  dashDelay(DELAYTIME);
   datachar = 2;
   SPI.beginTransaction(spiSettings);
   SPI.transfer(datachar);
@@ -63,14 +60,14 @@ void senddispToVFD()
 	}
   SPI.endTransaction();
 	pulseVFDLoad();
-
-
 }
 
 void pulseVFDLoad()
 {
-  dashDelay(DELAYTIME);
 	gpio_set_level(VFD_LOAD,HIGH);
+  dashDelay(DELAYTIME);
+	gpio_set_level(VFD_LOAD,LOW);
+  dashDelay(DELAYTIME);
 	
 }
 
@@ -120,7 +117,7 @@ void pulseLLatch()								//clock pulse duration and dashDelay
 
 void dashDelay(char i)								//dashDelay routine
 {
-	delayMicroseconds(i);
+	delayMicroseconds(20);
 }
 
 /*
