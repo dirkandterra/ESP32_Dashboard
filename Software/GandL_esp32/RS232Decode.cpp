@@ -80,8 +80,8 @@ void sendToGauges()
   dashDelay(DELAYTIME);
 	//pack these (4) 10 bit xfers into (2) 16 bit xfer and one 8
 	data16 = ((gaugeString[0]&0x03)<<14)&0xC000;
-  data16 += gaugeString[1]<<4;
-  data16 +=(gaugeString[2]&0x03)<<2;
+  data16 += gaugeString[1]<<6;
+  data16 +=(gaugeString[2]&0x03)<<4;
   data16 +=gaugeString[3]>>4;
   SPI.beginTransaction(spiSettings);
   SPI.transfer16(data16);
