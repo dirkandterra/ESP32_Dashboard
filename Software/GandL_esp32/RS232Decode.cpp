@@ -17,7 +17,7 @@ unsigned char lightString[2];
 char vfdString[8];
 //char vfdDimming=0xD0;
 char vfdDimming=0x02;
-SPISettings spiSettings(200000,MSBFIRST,SPI_MODE1);
+SPISettings spiSettings(100000,MSBFIRST,SPI_MODE1);
 void VFDData(uint8_t in);
 
 //******************
@@ -98,13 +98,14 @@ void sendToGauges()
 
 void sendToLights()
 {
-  data16 = lightString[0]<<8;
+  SPI.setDataMode(SPI_MODE1);
+  data16 = (uint16_t)lightString[0]<<8;
   data16 += lightString[1];
   SPI.beginTransaction(spiSettings);
   SPI.transfer16(data16);
   SPI.endTransaction();	
 	pulseLLatch();
-
+  SPI.setDataMode(SPI_MODE0);
 }
 
 void pulseLLatch()								//clock pulse duration and dashDelay
@@ -117,7 +118,7 @@ void pulseLLatch()								//clock pulse duration and dashDelay
 
 void dashDelay(char i)								//dashDelay routine
 {
-	delayMicroseconds(20);
+	delayMicroseconds(i);
 }
 
 /*
