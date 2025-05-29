@@ -2,7 +2,7 @@
 
 _This project uses the a Nano with a MCP2515 to drive a 2004 Dodge Intrepid Dashboard._
 
-![IntrepidSchematic](/img/NanoCluster.png)  
+![IntrepidSchematic](/img/ESPCluster.png)  
 
 ## How to use  
 
@@ -55,7 +55,7 @@ I (257) spi_oled: init oled
 ```
 
 * Board Files:
-![Board_Files](/\espIntrepidBoard/espIntrepidSch_Board.pdf) 
+![Board_Files](/espIntrepidBoard/espIntrepidSch_Board.pdf) 
 
 * Intrepid Schematic (Not Complete):  
 
