@@ -54,6 +54,9 @@ I (251) spi_oled: init hspi
 I (257) spi_oled: init oled
 ```
 
+* Board Files:
+![Board_Files](/\espIntrepidBoard/espIntrepidSch_Board.pdf) 
+
 * Intrepid Schematic (Not Complete):  
 
   ![IntrepidSchematic](/img/IntrepidSchematic.png)  
