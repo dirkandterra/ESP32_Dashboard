@@ -1,6 +1,6 @@
 # _ESP_Dashboard_  
 
-_This project uses the a Nano with a MCP2515 to drive a 2004 Dodge Intrepid Dashboard._
+_This project uses the a CANBus and an ESP32 to drive a 2004 Dodge Intrepid Dashboard._
 
 ![IntrepidSchematic](/img/ESPCluster.png)  
 
@@ -10,49 +10,39 @@ _This project uses the a Nano with a MCP2515 to drive a 2004 Dodge Intrepid Dash
 * 2004 Dodge Intrepid Instrument Panel
 * Connection:  
 
-| Signal    | Intrepid  |ESP8266|
+| Signal    | Intrepid  | ESP32 |
 |-----------|-----------|-------|
-| 3.3V      | NC		| VCC	|
-| SCLK      | D0(SCL)   | GPIO14|
-| VFDCLK	| VFDCLK	| Trans	| 
-| MOSI      | VFD/GLDATA| GPIO13|
-| Gauge CS  | Gauge CS  | GPIO16|
-| Light Pls | Light Pls | GPIO12|
-| VFD Pls	| VFD Pls	| GPIO02|
-| GND       | GND       | GND   |
+| 5V        | 5V		|  5V   |
+| GLDATA    | GLDATA	|  D13  |
+| GLCLK     | GLCLK 	|  D14  |
+| LightLatch| LightLatch|  D6   |
+| Gauge CS  | Gauge CS  |  D7   |
+| VFDDATA   | VFDDATA   |  D13  |
+| VFDCLK	| VFDCLK	|  D14  |
+| VFD Pls	| VFD Pls	|  D12  |
+| Backlight | UC_LMP_DRV|  D15  |
+| PB Input  | ODO PB    |  D0   |
+| L Turn    | C2-5		|  D21  |
+| R Turn    | C1-8      |  D22  |
+| HighBeam  | C1-10     |  D23  |
+| OilPress  | C2-10     |  D2   |
+| ABS		| ??		|  D18  |
+| Airbag    | ??		|  D19  |
+| GND       | GND       |  GND  |
+| CAN TX    |			|  D5	|
+| CAN RX	|			|  D4	|
 
-### Configure the project  
-
-```
-make menuconfig
-```
-
-* Set serial port under Serial Flasher Options.
 
 
-### Build and Flash  
-
-Build the project and flash it to the board, then run monitor tool to view serial output:
-
-```
-make -j4 flash monitor
-```
-
-(To exit the serial monitor, type ``Ctrl-]``.)
-
-See the Getting Started Guide for full steps to configure and use ESP-IDF to build projects.
-
-## Example Output  
-
-* LOG:  
+### Arduino Library Needed  
 
 ```
-I (233) spi_oled: init gpio
-I (235) gpio: GPIO[12]| InputEn: 0| OutputEn: 1| OpenDrain: 0| Pullup: 1| Pulldown: 0| Intr:0
-I (239) gpio: GPIO[15]| InputEn: 0| OutputEn: 1| OpenDrain: 0| Pullup: 1| Pulldown: 0| Intr:0
-I (251) spi_oled: init hspi
-I (257) spi_oled: init oled
+https://github.com/coryjfowler/MCP_CAN_lib.git
 ```
+
+* MCP_CAN_lib
+
+### Intrepid Dashboard Help
 
 * Board Files:
 ![Board_Files](/espIntrepidBoard/espIntrepidSch_Board.pdf) 
