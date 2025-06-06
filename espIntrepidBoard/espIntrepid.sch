@@ -65,6 +65,8 @@
 <layer number="54" name="bGND_GNDA" color="1" fill="9" visible="no" active="no"/>
 <layer number="56" name="wert" color="7" fill="1" visible="no" active="no"/>
 <layer number="57" name="tCAD" color="7" fill="1" visible="no" active="no"/>
+<layer number="88" name="SimResults" color="9" fill="1" visible="no" active="no"/>
+<layer number="89" name="SimProbes" color="9" fill="1" visible="no" active="no"/>
 <layer number="90" name="Modules" color="5" fill="1" visible="yes" active="yes"/>
 <layer number="91" name="Nets" color="2" fill="1" visible="yes" active="yes"/>
 <layer number="92" name="Busses" color="1" fill="1" visible="yes" active="yes"/>
@@ -1937,15 +1939,15 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <pin name="GND1" x="48.26" y="-12.7" length="middle" rot="R180"/>
 <pin name="GND2" x="48.26" y="2.54" length="middle" rot="R180"/>
 </symbol>
-<symbol name="SN65HVD232D">
+<symbol name="SN65HVD233D">
 <pin name="D" x="0" y="0" length="middle"/>
 <pin name="GND" x="0" y="-2.54" length="middle"/>
 <pin name="VCC" x="0" y="-5.08" length="middle"/>
 <pin name="R" x="0" y="-7.62" length="middle"/>
-<pin name="NC1" x="27.94" y="-7.62" length="middle" rot="R180"/>
+<pin name="LBK" x="27.94" y="-7.62" length="middle" rot="R180"/>
 <pin name="CAN_L" x="27.94" y="-5.08" length="middle" rot="R180"/>
 <pin name="CAN_H" x="27.94" y="-2.54" length="middle" rot="R180"/>
-<pin name="NC" x="27.94" y="0" length="middle" rot="R180"/>
+<pin name="RSEL" x="27.94" y="0" length="middle" rot="R180"/>
 <wire x1="5.08" y1="2.54" x2="22.86" y2="2.54" width="0.254" layer="94"/>
 <wire x1="22.86" y1="2.54" x2="22.86" y2="-10.16" width="0.254" layer="94"/>
 <wire x1="22.86" y1="-10.16" x2="5.08" y2="-10.16" width="0.254" layer="94"/>
@@ -2971,20 +2973,21 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 </device>
 </devices>
 </deviceset>
-<deviceset name="SN65HVD232D" prefix="U">
+<deviceset name="SN65HVD233D" prefix="U">
+<description>CAN Transceiver with loopback and mode sel</description>
 <gates>
-<gate name="G$1" symbol="SN65HVD232D" x="0" y="0"/>
+<gate name="G$1" symbol="SN65HVD233D" x="0" y="0"/>
 </gates>
 <devices>
-<device name="SOIC8" package="SOIC-8">
+<device name="" package="SOIC-8">
 <connects>
 <connect gate="G$1" pin="CAN_H" pad="7"/>
 <connect gate="G$1" pin="CAN_L" pad="6"/>
 <connect gate="G$1" pin="D" pad="1"/>
 <connect gate="G$1" pin="GND" pad="2"/>
-<connect gate="G$1" pin="NC" pad="8"/>
-<connect gate="G$1" pin="NC1" pad="5"/>
+<connect gate="G$1" pin="LBK" pad="5"/>
 <connect gate="G$1" pin="R" pad="4"/>
+<connect gate="G$1" pin="RSEL" pad="8"/>
 <connect gate="G$1" pin="VCC" pad="3"/>
 </connects>
 <technologies>
@@ -3797,7 +3800,7 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <part name="Q7" library="DR" deviceset="TRANS_NPN" device=""/>
 <part name="R10" library="DR" deviceset="R-US_" device="M1206"/>
 <part name="GND8" library="supply1" deviceset="GND" device=""/>
-<part name="U5" library="DR" deviceset="SN65HVD232D" device="SOIC8"/>
+<part name="U5" library="DR" deviceset="SN65HVD233D" device=""/>
 <part name="GND9" library="supply1" deviceset="GND" device=""/>
 <part name="R11" library="DR" deviceset="R-US_" device="M1206"/>
 <part name="JP4" library="pinhead" library_urn="urn:adsk.eagle:library:325" deviceset="PINHD-1X2" device="" package3d_urn="urn:adsk.eagle:package:22435/2"/>
@@ -3812,6 +3815,7 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <part name="JP7" library="pinhead" library_urn="urn:adsk.eagle:library:325" deviceset="PINHD-1X2" device="" package3d_urn="urn:adsk.eagle:package:22435/2"/>
 <part name="P+8" library="supply1" deviceset="+12V" device=""/>
 <part name="GND10" library="supply1" deviceset="GND" device=""/>
+<part name="GND11" library="supply1" deviceset="GND" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -3823,6 +3827,9 @@ D7 - G CS
 D8 - VFD Data
 D9 - VFD Clk
 D10 - VFD Load</text>
+<text x="264.16" y="33.02" size="1.778" layer="97">V 1.0 - First Build
+V 1.1 - Forgot to power CAN Chip
+        -Added GND to RSEL on CAN Chip for Mode Select</text>
 </plain>
 <instances>
 <instance part="JP1" gate="A" x="68.58" y="33.02" smashed="yes" rot="R180">
@@ -3918,8 +3925,8 @@ D10 - VFD Load</text>
 <instance part="U5" gate="G$1" x="182.88" y="33.02" smashed="yes">
 <attribute name="NAME" x="187.706" y="36.068" size="1.778" layer="95"/>
 </instance>
-<instance part="GND9" gate="1" x="172.32" y="19.32" smashed="yes">
-<attribute name="VALUE" x="169.78" y="16.78" size="1.778" layer="96"/>
+<instance part="GND9" gate="1" x="172.72" y="20.32" smashed="yes">
+<attribute name="VALUE" x="170.18" y="17.78" size="1.778" layer="96"/>
 </instance>
 <instance part="R11" gate="G$1" x="220.98" y="40.64" smashed="yes">
 <attribute name="NAME" x="217.17" y="42.1386" size="1.778" layer="95"/>
@@ -3959,6 +3966,7 @@ D10 - VFD Load</text>
 <attribute name="VALUE" x="218.44" y="17.78" size="1.778" layer="96" rot="R90"/>
 </instance>
 <instance part="GND10" gate="1" x="220.98" y="12.7" smashed="yes"/>
+<instance part="GND11" gate="1" x="203.2" y="40.64" smashed="yes"/>
 </instances>
 <busses>
 </busses>
@@ -3995,7 +4003,7 @@ D10 - VFD Load</text>
 <wire x1="182.88" y1="30.48" x2="172.72" y2="30.48" width="0.1524" layer="91"/>
 <pinref part="GND9" gate="1" pin="GND"/>
 <wire x1="172.72" y1="30.48" x2="172.72" y2="21.86" width="0.1524" layer="91"/>
-<wire x1="172.72" y1="21.86" x2="172.32" y2="21.86" width="0.1524" layer="91"/>
+<wire x1="172.72" y1="21.86" x2="172.72" y2="22.86" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="GND5" gate="1" pin="GND"/>
@@ -4037,6 +4045,13 @@ D10 - VFD Load</text>
 <wire x1="226.06" y1="20.32" x2="226.06" y2="15.24" width="0.1524" layer="91"/>
 <pinref part="GND10" gate="1" pin="GND"/>
 <wire x1="226.06" y1="15.24" x2="220.98" y2="15.24" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="U5" gate="G$1" pin="RSEL"/>
+<wire x1="210.82" y1="33.02" x2="210.82" y2="45.72" width="0.1524" layer="91"/>
+<wire x1="210.82" y1="45.72" x2="203.2" y2="45.72" width="0.1524" layer="91"/>
+<pinref part="GND11" gate="1" pin="GND"/>
+<wire x1="203.2" y1="45.72" x2="203.2" y2="43.18" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="+5V" class="0">
@@ -4443,6 +4458,19 @@ D10 - VFD Load</text>
 <junction x="76.2" y="27.94"/>
 <pinref part="JP1" gate="A" pin="7"/>
 <wire x1="71.12" y1="40.64" x2="76.2" y2="40.64" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="3.3V" class="0">
+<segment>
+<pinref part="U5" gate="G$1" pin="VCC"/>
+<wire x1="182.88" y1="27.94" x2="180.34" y2="27.94" width="0.1524" layer="91"/>
+<wire x1="180.34" y1="27.94" x2="180.34" y2="20.32" width="0.1524" layer="91"/>
+<label x="177.8" y="17.78" size="1.778" layer="95"/>
+</segment>
+<segment>
+<wire x1="91.44" y1="63.5" x2="91.44" y2="55.88" width="0.1524" layer="91"/>
+<pinref part="U1" gate="G$1" pin="3.3V"/>
+<label x="91.44" y="63.5" size="1.778" layer="95"/>
 </segment>
 </net>
 </nets>
