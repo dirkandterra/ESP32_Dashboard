@@ -3779,18 +3779,18 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <part name="P+2" library="supply1" deviceset="+12V" device=""/>
 <part name="P+3" library="supply1" deviceset="+5V" device=""/>
 <part name="GND2" library="supply1" deviceset="GND" device=""/>
-<part name="U2" library="DR" deviceset="MOSFET_P" device=""/>
-<part name="R1" library="DR" deviceset="R-US_" device="M1206"/>
+<part name="U2" library="DR" deviceset="MOSFET_P" device="" value="DMG2307"/>
+<part name="R1" library="DR" deviceset="R-US_" device="M1206" value="5.6k"/>
 <part name="P+4" library="supply1" deviceset="+12V" device=""/>
-<part name="Q1" library="DR" deviceset="TRANS_NPN" device=""/>
-<part name="R4" library="DR" deviceset="R-US_" device="M1206"/>
-<part name="R5" library="DR" deviceset="R-US_" device="M1206"/>
-<part name="R6" library="DR" deviceset="R-US_" device="M1206"/>
+<part name="Q1" library="DR" deviceset="TRANS_NPN" device="" value="C1815"/>
+<part name="R4" library="DR" deviceset="R-US_" device="M1206" value="5.6K"/>
+<part name="R5" library="DR" deviceset="R-US_" device="M1206" value="470"/>
+<part name="R6" library="DR" deviceset="R-US_" device="M1206" value="470"/>
 <part name="GND5" library="supply1" deviceset="GND" device=""/>
 <part name="P+5" library="supply1" deviceset="+5V" device=""/>
-<part name="R7" library="DR" deviceset="R-US_" device="M1206"/>
-<part name="R8" library="DR" deviceset="R-US_" device="M1206"/>
-<part name="R9" library="DR" deviceset="R-US_" device="M1206"/>
+<part name="R7" library="DR" deviceset="R-US_" device="M1206" value="470"/>
+<part name="R8" library="DR" deviceset="R-US_" device="M1206" value="470"/>
+<part name="R9" library="DR" deviceset="R-US_" device="M1206" value="470"/>
 <part name="JP3" library="pinhead" deviceset="PINHD-1X1" device=""/>
 <part name="U1" library="DR" deviceset="ESP32DEV_38" device=""/>
 <part name="P+1" library="supply1" deviceset="+5V" device=""/>
@@ -3798,7 +3798,7 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <part name="GND6" library="supply1" deviceset="GND" device=""/>
 <part name="GND7" library="supply1" deviceset="GND" device=""/>
 <part name="Q7" library="DR" deviceset="TRANS_NPN" device=""/>
-<part name="R10" library="DR" deviceset="R-US_" device="M1206"/>
+<part name="R10" library="DR" deviceset="R-US_" device="M1206" value="1800"/>
 <part name="GND8" library="supply1" deviceset="GND" device=""/>
 <part name="U5" library="DR" deviceset="SN65HVD233D" device=""/>
 <part name="GND9" library="supply1" deviceset="GND" device=""/>
@@ -3820,21 +3820,21 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <sheets>
 <sheet>
 <plain>
-<text x="47.88" y="24.46" size="1.778" layer="97">D4 - GL CLK
+<text x="25.02" y="24.46" size="1.778" layer="97">D4 - GL CLK
 D5 - GL Data
 D6 - L Latch
 D7 - G CS
 D8 - VFD Data
 D9 - VFD Clk
 D10 - VFD Load</text>
-<text x="264.16" y="33.02" size="1.778" layer="97">V 1.0 - First Build
+<text x="139.7" y="58.42" size="1.778" layer="97">V 1.0 - First Build
 V 1.1 - Forgot to power CAN Chip
         -Added GND to RSEL on CAN Chip for Mode Select</text>
 </plain>
 <instances>
-<instance part="JP1" gate="A" x="68.58" y="33.02" smashed="yes" rot="R180">
-<attribute name="NAME" x="74.93" y="22.225" size="1.778" layer="95" rot="R180"/>
-<attribute name="VALUE" x="74.93" y="45.72" size="1.778" layer="96" rot="R180"/>
+<instance part="JP1" gate="A" x="45.72" y="33.02" smashed="yes" rot="R180">
+<attribute name="NAME" x="52.07" y="22.225" size="1.778" layer="95" rot="R180"/>
+<attribute name="VALUE" x="52.07" y="45.72" size="1.778" layer="96" rot="R180"/>
 </instance>
 <instance part="JP2" gate="A" x="18.5" y="78" smashed="yes">
 <attribute name="NAME" x="12.15" y="83.715" size="1.778" layer="95"/>
@@ -3870,11 +3870,11 @@ V 1.1 - Forgot to power CAN Chip
 </instance>
 <instance part="R5" gate="G$1" x="48.26" y="91.44" smashed="yes">
 <attribute name="NAME" x="44.45" y="92.9386" size="1.778" layer="95"/>
-<attribute name="VALUE" x="44.45" y="88.138" size="1.778" layer="96"/>
+<attribute name="VALUE" x="39.37" y="90.678" size="1.778" layer="96"/>
 </instance>
 <instance part="R6" gate="G$1" x="48.26" y="86.36" smashed="yes">
 <attribute name="NAME" x="44.45" y="87.8586" size="1.778" layer="95"/>
-<attribute name="VALUE" x="44.45" y="83.058" size="1.778" layer="96"/>
+<attribute name="VALUE" x="39.37" y="85.598" size="1.778" layer="96"/>
 </instance>
 <instance part="GND5" gate="1" x="60.56" y="98.04" smashed="yes"/>
 <instance part="P+5" gate="1" x="104.14" y="86.36" smashed="yes">
@@ -3882,34 +3882,34 @@ V 1.1 - Forgot to power CAN Chip
 </instance>
 <instance part="R7" gate="G$1" x="48.26" y="81.28" smashed="yes">
 <attribute name="NAME" x="44.45" y="82.7786" size="1.778" layer="95"/>
-<attribute name="VALUE" x="44.45" y="77.978" size="1.778" layer="96"/>
+<attribute name="VALUE" x="39.37" y="77.978" size="1.778" layer="96"/>
 </instance>
 <instance part="R8" gate="G$1" x="48.26" y="76.2" smashed="yes">
 <attribute name="NAME" x="44.45" y="77.6986" size="1.778" layer="95"/>
-<attribute name="VALUE" x="44.45" y="72.898" size="1.778" layer="96"/>
+<attribute name="VALUE" x="39.37" y="72.898" size="1.778" layer="96"/>
 </instance>
-<instance part="R9" gate="G$1" x="50.8" y="60.96" smashed="yes">
-<attribute name="NAME" x="46.99" y="62.4586" size="1.778" layer="95"/>
-<attribute name="VALUE" x="46.99" y="57.658" size="1.778" layer="96"/>
+<instance part="R9" gate="G$1" x="27.94" y="60.96" smashed="yes">
+<attribute name="NAME" x="24.13" y="62.4586" size="1.778" layer="95"/>
+<attribute name="VALUE" x="24.13" y="57.658" size="1.778" layer="96"/>
 </instance>
-<instance part="JP3" gate="G$1" x="157.48" y="5.08" smashed="yes">
-<attribute name="NAME" x="151.13" y="8.255" size="1.778" layer="95"/>
-<attribute name="VALUE" x="151.13" y="0" size="1.778" layer="96"/>
+<instance part="JP3" gate="G$1" x="134.62" y="5.08" smashed="yes">
+<attribute name="NAME" x="128.27" y="8.255" size="1.778" layer="95"/>
+<attribute name="VALUE" x="128.27" y="0" size="1.778" layer="96"/>
 </instance>
-<instance part="U1" gate="G$1" x="91.44" y="53.34" smashed="yes">
-<attribute name="NAME" x="99.06" y="58.42" size="1.27" layer="95"/>
+<instance part="U1" gate="G$1" x="68.58" y="53.34" smashed="yes">
+<attribute name="NAME" x="76.2" y="58.42" size="1.27" layer="95"/>
 </instance>
-<instance part="P+1" gate="1" x="81.28" y="13.92" smashed="yes">
-<attribute name="VALUE" x="78.74" y="8.84" size="1.778" layer="96" rot="R90"/>
+<instance part="P+1" gate="1" x="58.42" y="13.92" smashed="yes">
+<attribute name="VALUE" x="55.88" y="8.84" size="1.778" layer="96" rot="R90"/>
 </instance>
-<instance part="GND1" gate="1" x="147.2" y="58.3" smashed="yes">
-<attribute name="VALUE" x="144.66" y="55.76" size="1.778" layer="96"/>
+<instance part="GND1" gate="1" x="124.34" y="58.3" smashed="yes">
+<attribute name="VALUE" x="121.8" y="55.76" size="1.778" layer="96"/>
 </instance>
-<instance part="GND6" gate="1" x="68.46" y="20.2" smashed="yes">
-<attribute name="VALUE" x="65.92" y="17.66" size="1.778" layer="96"/>
+<instance part="GND6" gate="1" x="45.6" y="20.2" smashed="yes">
+<attribute name="VALUE" x="43.06" y="17.66" size="1.778" layer="96"/>
 </instance>
-<instance part="GND7" gate="1" x="167.64" y="38.1" smashed="yes">
-<attribute name="VALUE" x="165.1" y="35.56" size="1.778" layer="96"/>
+<instance part="GND7" gate="1" x="144.78" y="38.1" smashed="yes">
+<attribute name="VALUE" x="142.24" y="35.56" size="1.778" layer="96"/>
 </instance>
 <instance part="Q7" gate="G$1" x="138.88" y="111.62" smashed="yes">
 <attribute name="NAME" x="131.26" y="119.24" size="1.778" layer="95"/>
@@ -3922,27 +3922,27 @@ V 1.1 - Forgot to power CAN Chip
 <instance part="GND8" gate="1" x="144.38" y="100.6" smashed="yes">
 <attribute name="VALUE" x="141.84" y="98.06" size="1.778" layer="96"/>
 </instance>
-<instance part="U5" gate="G$1" x="182.88" y="33.02" smashed="yes">
-<attribute name="NAME" x="187.706" y="36.068" size="1.778" layer="95"/>
+<instance part="U5" gate="G$1" x="149.86" y="33.02" smashed="yes">
+<attribute name="NAME" x="154.686" y="36.068" size="1.778" layer="95"/>
 </instance>
-<instance part="GND9" gate="1" x="172.72" y="20.32" smashed="yes">
-<attribute name="VALUE" x="170.18" y="17.78" size="1.778" layer="96"/>
+<instance part="GND9" gate="1" x="142.24" y="20.32" smashed="yes">
+<attribute name="VALUE" x="139.7" y="17.78" size="1.778" layer="96"/>
 </instance>
-<instance part="R11" gate="G$1" x="220.98" y="40.64" smashed="yes">
-<attribute name="NAME" x="217.17" y="42.1386" size="1.778" layer="95"/>
-<attribute name="VALUE" x="217.17" y="37.338" size="1.778" layer="96"/>
+<instance part="R11" gate="G$1" x="185.42" y="40.64" smashed="yes">
+<attribute name="NAME" x="181.61" y="42.1386" size="1.778" layer="95"/>
+<attribute name="VALUE" x="181.61" y="37.338" size="1.778" layer="96"/>
 </instance>
-<instance part="JP4" gate="G$1" x="231.14" y="38.1" smashed="yes">
-<attribute name="NAME" x="224.79" y="43.815" size="1.778" layer="95"/>
-<attribute name="VALUE" x="224.79" y="33.02" size="1.778" layer="96"/>
+<instance part="JP4" gate="G$1" x="195.58" y="38.1" smashed="yes">
+<attribute name="NAME" x="189.23" y="43.815" size="1.778" layer="95"/>
+<attribute name="VALUE" x="189.23" y="33.02" size="1.778" layer="96"/>
 </instance>
-<instance part="JP5" gate="G$1" x="233.68" y="27.94" smashed="yes">
-<attribute name="NAME" x="227.33" y="33.655" size="1.778" layer="95"/>
-<attribute name="VALUE" x="227.33" y="22.86" size="1.778" layer="96"/>
+<instance part="JP5" gate="G$1" x="195.58" y="27.94" smashed="yes">
+<attribute name="NAME" x="189.23" y="33.655" size="1.778" layer="95"/>
+<attribute name="VALUE" x="189.23" y="22.86" size="1.778" layer="96"/>
 </instance>
-<instance part="JP6" gate="A" x="243.84" y="99.06" smashed="yes">
-<attribute name="NAME" x="237.49" y="109.855" size="1.778" layer="95"/>
-<attribute name="VALUE" x="237.49" y="86.36" size="1.778" layer="96"/>
+<instance part="JP6" gate="A" x="152.4" y="81.28" smashed="yes">
+<attribute name="NAME" x="146.05" y="92.075" size="1.778" layer="95"/>
+<attribute name="VALUE" x="146.05" y="68.58" size="1.778" layer="96"/>
 </instance>
 <instance part="U3" gate="G$1" x="58.42" y="91.44" smashed="yes">
 <attribute name="NAME" x="63.5" y="93.98" size="1.778" layer="95"/>
@@ -3951,22 +3951,22 @@ V 1.1 - Forgot to power CAN Chip
 <attribute name="VALUE" x="81.28" y="91.44" size="1.778" layer="96" rot="R90"/>
 </instance>
 <instance part="GND3" gate="1" x="55.88" y="68.58" smashed="yes"/>
-<instance part="GND4" gate="1" x="55.88" y="55.88" smashed="yes"/>
-<instance part="P+7" gate="1" x="83.82" y="66.04" smashed="yes">
-<attribute name="VALUE" x="81.28" y="60.96" size="1.778" layer="96" rot="R90"/>
+<instance part="GND4" gate="1" x="33.02" y="55.88" smashed="yes"/>
+<instance part="P+7" gate="1" x="60.96" y="66.04" smashed="yes">
+<attribute name="VALUE" x="58.42" y="60.96" size="1.778" layer="96" rot="R90"/>
 </instance>
-<instance part="U6" gate="G$1" x="58.42" y="60.96" smashed="yes">
-<attribute name="NAME" x="63.5" y="63.5" size="1.778" layer="95"/>
+<instance part="U6" gate="G$1" x="35.56" y="60.96" smashed="yes">
+<attribute name="NAME" x="40.64" y="63.5" size="1.778" layer="95"/>
 </instance>
-<instance part="JP7" gate="G$1" x="233.68" y="20.32" smashed="yes">
-<attribute name="NAME" x="227.33" y="26.035" size="1.778" layer="95"/>
-<attribute name="VALUE" x="227.33" y="15.24" size="1.778" layer="96"/>
+<instance part="JP7" gate="G$1" x="195.58" y="20.32" smashed="yes">
+<attribute name="NAME" x="189.23" y="26.035" size="1.778" layer="95"/>
+<attribute name="VALUE" x="189.23" y="15.24" size="1.778" layer="96"/>
 </instance>
-<instance part="P+8" gate="1" x="220.98" y="22.86" smashed="yes">
-<attribute name="VALUE" x="218.44" y="17.78" size="1.778" layer="96" rot="R90"/>
+<instance part="P+8" gate="1" x="182.88" y="22.86" smashed="yes">
+<attribute name="VALUE" x="180.34" y="17.78" size="1.778" layer="96" rot="R90"/>
 </instance>
-<instance part="GND10" gate="1" x="220.98" y="12.7" smashed="yes"/>
-<instance part="GND11" gate="1" x="203.2" y="40.64" smashed="yes"/>
+<instance part="GND10" gate="1" x="182.88" y="12.7" smashed="yes"/>
+<instance part="GND11" gate="1" x="165.1" y="38.1" smashed="yes"/>
 </instances>
 <busses>
 </busses>
@@ -3981,16 +3981,16 @@ V 1.1 - Forgot to power CAN Chip
 <segment>
 <pinref part="U1" gate="G$1" pin="GND"/>
 <pinref part="GND6" gate="1" pin="GND"/>
-<wire x1="91.44" y1="22.86" x2="68.46" y2="22.86" width="0.1524" layer="91"/>
-<wire x1="68.46" y1="22.86" x2="68.46" y2="22.74" width="0.1524" layer="91"/>
+<wire x1="68.58" y1="22.86" x2="45.6" y2="22.86" width="0.1524" layer="91"/>
+<wire x1="45.6" y1="22.86" x2="45.6" y2="22.74" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="U1" gate="G$1" pin="GND2"/>
-<wire x1="139.7" y1="55.88" x2="142.24" y2="55.88" width="0.1524" layer="91"/>
-<wire x1="142.24" y1="55.88" x2="142.24" y2="60.96" width="0.1524" layer="91"/>
+<wire x1="116.84" y1="55.88" x2="119.38" y2="55.88" width="0.1524" layer="91"/>
+<wire x1="119.38" y1="55.88" x2="119.38" y2="60.96" width="0.1524" layer="91"/>
 <pinref part="GND1" gate="1" pin="GND"/>
-<wire x1="142.24" y1="60.96" x2="147.2" y2="60.96" width="0.1524" layer="91"/>
-<wire x1="147.2" y1="60.96" x2="147.2" y2="60.84" width="0.1524" layer="91"/>
+<wire x1="119.38" y1="60.96" x2="124.34" y2="60.96" width="0.1524" layer="91"/>
+<wire x1="124.34" y1="60.96" x2="124.34" y2="60.84" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="Q7" gate="G$1" pin="E"/>
@@ -4000,10 +4000,9 @@ V 1.1 - Forgot to power CAN Chip
 </segment>
 <segment>
 <pinref part="U5" gate="G$1" pin="GND"/>
-<wire x1="182.88" y1="30.48" x2="172.72" y2="30.48" width="0.1524" layer="91"/>
 <pinref part="GND9" gate="1" pin="GND"/>
-<wire x1="172.72" y1="30.48" x2="172.72" y2="21.86" width="0.1524" layer="91"/>
-<wire x1="172.72" y1="21.86" x2="172.72" y2="22.86" width="0.1524" layer="91"/>
+<wire x1="149.86" y1="30.48" x2="142.24" y2="22.86" width="0.1524" layer="91"/>
+<wire x1="142.24" y1="21.86" x2="142.24" y2="22.86" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="GND5" gate="1" pin="GND"/>
@@ -4032,26 +4031,26 @@ V 1.1 - Forgot to power CAN Chip
 <segment>
 <pinref part="U6" gate="G$1" pin="P$2"/>
 <pinref part="GND4" gate="1" pin="GND"/>
-<wire x1="58.42" y1="58.42" x2="55.88" y2="58.42" width="0.1524" layer="91"/>
+<wire x1="35.56" y1="58.42" x2="33.02" y2="58.42" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="U1" gate="G$1" pin="GND1"/>
-<wire x1="139.7" y1="40.64" x2="167.64" y2="40.64" width="0.1524" layer="91"/>
+<wire x1="116.84" y1="40.64" x2="144.78" y2="40.64" width="0.1524" layer="91"/>
 <pinref part="GND7" gate="1" pin="GND"/>
 </segment>
 <segment>
 <pinref part="JP7" gate="G$1" pin="2"/>
-<wire x1="231.14" y1="20.32" x2="226.06" y2="20.32" width="0.1524" layer="91"/>
-<wire x1="226.06" y1="20.32" x2="226.06" y2="15.24" width="0.1524" layer="91"/>
+<wire x1="193.04" y1="20.32" x2="187.96" y2="20.32" width="0.1524" layer="91"/>
+<wire x1="187.96" y1="20.32" x2="187.96" y2="15.24" width="0.1524" layer="91"/>
 <pinref part="GND10" gate="1" pin="GND"/>
-<wire x1="226.06" y1="15.24" x2="220.98" y2="15.24" width="0.1524" layer="91"/>
+<wire x1="187.96" y1="15.24" x2="182.88" y2="15.24" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="U5" gate="G$1" pin="RSEL"/>
-<wire x1="210.82" y1="33.02" x2="210.82" y2="45.72" width="0.1524" layer="91"/>
-<wire x1="210.82" y1="45.72" x2="203.2" y2="45.72" width="0.1524" layer="91"/>
+<wire x1="177.8" y1="33.02" x2="177.8" y2="43.18" width="0.1524" layer="91"/>
+<wire x1="177.8" y1="43.18" x2="165.1" y2="43.18" width="0.1524" layer="91"/>
 <pinref part="GND11" gate="1" pin="GND"/>
-<wire x1="203.2" y1="45.72" x2="203.2" y2="43.18" width="0.1524" layer="91"/>
+<wire x1="165.1" y1="43.18" x2="165.1" y2="40.64" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="+5V" class="0">
@@ -4064,8 +4063,8 @@ V 1.1 - Forgot to power CAN Chip
 <segment>
 <pinref part="U1" gate="G$1" pin="VIN"/>
 <pinref part="P+1" gate="1" pin="+5V"/>
-<wire x1="91.44" y1="10.16" x2="81.28" y2="10.16" width="0.1524" layer="91"/>
-<wire x1="81.28" y1="10.16" x2="81.28" y2="11.38" width="0.1524" layer="91"/>
+<wire x1="68.58" y1="10.16" x2="58.42" y2="10.16" width="0.1524" layer="91"/>
+<wire x1="58.42" y1="10.16" x2="58.42" y2="11.38" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="P+5" gate="1" pin="+5V"/>
@@ -4079,9 +4078,9 @@ V 1.1 - Forgot to power CAN Chip
 <junction x="83.82" y="81.28"/>
 </segment>
 <segment>
-<wire x1="78.74" y1="60.96" x2="83.82" y2="60.96" width="0.1524" layer="91"/>
+<wire x1="55.88" y1="60.96" x2="60.96" y2="60.96" width="0.1524" layer="91"/>
 <pinref part="P+7" gate="1" pin="+5V"/>
-<wire x1="83.82" y1="60.96" x2="83.82" y2="63.5" width="0.1524" layer="91"/>
+<wire x1="60.96" y1="60.96" x2="60.96" y2="63.5" width="0.1524" layer="91"/>
 <pinref part="U6" gate="G$1" pin="P$4"/>
 </segment>
 </net>
@@ -4116,10 +4115,10 @@ V 1.1 - Forgot to power CAN Chip
 </segment>
 <segment>
 <pinref part="P+8" gate="1" pin="+12V"/>
-<wire x1="220.98" y1="20.32" x2="223.52" y2="20.32" width="0.1524" layer="91"/>
-<wire x1="223.52" y1="20.32" x2="223.52" y2="22.86" width="0.1524" layer="91"/>
+<wire x1="182.88" y1="20.32" x2="185.42" y2="20.32" width="0.1524" layer="91"/>
+<wire x1="185.42" y1="20.32" x2="185.42" y2="22.86" width="0.1524" layer="91"/>
 <pinref part="JP7" gate="G$1" pin="1"/>
-<wire x1="223.52" y1="22.86" x2="231.14" y2="22.86" width="0.1524" layer="91"/>
+<wire x1="185.42" y1="22.86" x2="193.04" y2="22.86" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$12" class="0">
@@ -4152,9 +4151,9 @@ V 1.1 - Forgot to power CAN Chip
 <label x="91.44" y="88.9" size="1.778" layer="95"/>
 </segment>
 <segment>
-<wire x1="241.3" y1="104.14" x2="220.98" y2="104.14" width="0.1524" layer="91"/>
+<wire x1="149.86" y1="86.36" x2="129.54" y2="86.36" width="0.1524" layer="91"/>
 <pinref part="JP6" gate="A" pin="2"/>
-<label x="220.98" y="104.14" size="1.778" layer="95"/>
+<label x="129.54" y="86.36" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="LTURN" class="0">
@@ -4164,9 +4163,9 @@ V 1.1 - Forgot to power CAN Chip
 <label x="91.44" y="83.82" size="1.778" layer="95"/>
 </segment>
 <segment>
-<wire x1="241.3" y1="101.6" x2="220.98" y2="101.6" width="0.1524" layer="91"/>
+<wire x1="149.86" y1="83.82" x2="129.54" y2="83.82" width="0.1524" layer="91"/>
 <pinref part="JP6" gate="A" pin="3"/>
-<label x="220.98" y="101.6" size="1.778" layer="95"/>
+<label x="129.54" y="83.82" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="HBEAM" class="0">
@@ -4178,45 +4177,32 @@ V 1.1 - Forgot to power CAN Chip
 </segment>
 <segment>
 <pinref part="JP6" gate="A" pin="1"/>
-<wire x1="238.76" y1="106.68" x2="241.3" y2="106.68" width="0.1524" layer="91"/>
-<wire x1="238.76" y1="106.68" x2="220.98" y2="106.68" width="0.1524" layer="91"/>
-<label x="220.98" y="106.68" size="1.778" layer="95"/>
+<wire x1="149.86" y1="88.9" x2="129.54" y2="88.9" width="0.1524" layer="91"/>
+<label x="129.54" y="88.9" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="AIRBAG" class="0">
-<segment>
-<pinref part="U3" gate="G$1" pin="P$11"/>
-<wire x1="78.74" y1="78.74" x2="91.44" y2="78.74" width="0.1524" layer="91"/>
-<label x="91.44" y="78.74" size="1.778" layer="95"/>
-</segment>
-<segment>
-<wire x1="220.98" y1="99.06" x2="241.3" y2="99.06" width="0.1524" layer="91"/>
-<pinref part="JP6" gate="A" pin="4"/>
-<label x="220.98" y="99.06" size="1.778" layer="95"/>
-</segment>
-</net>
-<net name="ABS" class="0">
 <segment>
 <pinref part="U3" gate="G$1" pin="P$9"/>
 <wire x1="78.74" y1="73.66" x2="91.44" y2="73.66" width="0.1524" layer="91"/>
 <label x="91.44" y="73.66" size="1.778" layer="95"/>
 </segment>
 <segment>
-<wire x1="220.98" y1="96.52" x2="241.3" y2="96.52" width="0.1524" layer="91"/>
-<label x="220.98" y="96.52" size="1.778" layer="95"/>
+<wire x1="129.54" y1="78.74" x2="149.86" y2="78.74" width="0.1524" layer="91"/>
+<label x="129.54" y="78.74" size="1.778" layer="95"/>
 <pinref part="JP6" gate="A" pin="5"/>
 </segment>
 </net>
 <net name="OIL" class="0">
 <segment>
-<wire x1="78.74" y1="58.42" x2="86.36" y2="58.42" width="0.1524" layer="91"/>
-<label x="83.82" y="58.42" size="1.778" layer="95"/>
+<wire x1="55.88" y1="58.42" x2="63.5" y2="58.42" width="0.1524" layer="91"/>
+<label x="60.96" y="58.42" size="1.778" layer="95"/>
 <pinref part="U6" gate="G$1" pin="P$3"/>
 </segment>
 <segment>
-<wire x1="220.98" y1="93.98" x2="241.3" y2="93.98" width="0.1524" layer="91"/>
+<wire x1="129.54" y1="76.2" x2="149.86" y2="76.2" width="0.1524" layer="91"/>
 <pinref part="JP6" gate="A" pin="6"/>
-<label x="220.98" y="93.98" size="1.778" layer="95"/>
+<label x="129.54" y="76.2" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="LTURN_UC" class="0">
@@ -4226,8 +4212,8 @@ V 1.1 - Forgot to power CAN Chip
 <pinref part="R6" gate="G$1" pin="1"/>
 </segment>
 <segment>
-<wire x1="139.7" y1="43.18" x2="149.86" y2="43.18" width="0.1524" layer="91"/>
-<label x="149.86" y="43.18" size="1.778" layer="95"/>
+<wire x1="116.84" y1="43.18" x2="127" y2="43.18" width="0.1524" layer="91"/>
+<label x="127" y="43.18" size="1.778" layer="95"/>
 <pinref part="U1" gate="G$1" pin="21"/>
 </segment>
 </net>
@@ -4239,8 +4225,8 @@ V 1.1 - Forgot to power CAN Chip
 </segment>
 <segment>
 <pinref part="U1" gate="G$1" pin="22"/>
-<wire x1="139.7" y1="50.8" x2="149.86" y2="50.8" width="0.1524" layer="91"/>
-<label x="149.86" y="50.8" size="1.778" layer="95"/>
+<wire x1="116.84" y1="50.8" x2="127" y2="50.8" width="0.1524" layer="91"/>
+<label x="127" y="50.8" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="HB_UC" class="0">
@@ -4251,35 +4237,35 @@ V 1.1 - Forgot to power CAN Chip
 </segment>
 <segment>
 <pinref part="U1" gate="G$1" pin="23"/>
-<wire x1="139.7" y1="53.34" x2="149.86" y2="53.34" width="0.1524" layer="91"/>
-<label x="149.86" y="53.34" size="1.778" layer="95"/>
+<wire x1="116.84" y1="53.34" x2="127" y2="53.34" width="0.1524" layer="91"/>
+<label x="127" y="53.34" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="OIL_UC" class="0">
 <segment>
-<wire x1="35.56" y1="60.96" x2="45.72" y2="60.96" width="0.1524" layer="91"/>
-<label x="35.56" y="60.96" size="1.778" layer="95"/>
+<wire x1="12.7" y1="60.96" x2="22.86" y2="60.96" width="0.1524" layer="91"/>
+<label x="12.7" y="60.96" size="1.778" layer="95"/>
 <pinref part="R9" gate="G$1" pin="1"/>
 </segment>
 <segment>
-<wire x1="147.32" y1="20.32" x2="139.7" y2="20.32" width="0.1524" layer="91"/>
+<wire x1="124.46" y1="20.32" x2="116.84" y2="20.32" width="0.1524" layer="91"/>
 <pinref part="U1" gate="G$1" pin="2"/>
-<label x="149.86" y="20.32" size="1.778" layer="95"/>
+<label x="127" y="20.32" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="ABS_UC" class="0">
+<net name="AIRBAG_UC" class="0">
 <segment>
 <wire x1="30.48" y1="76.2" x2="43.18" y2="76.2" width="0.1524" layer="91"/>
 <label x="30.48" y="76.2" size="1.778" layer="95"/>
 <pinref part="R8" gate="G$1" pin="1"/>
 </segment>
 <segment>
-<wire x1="139.7" y1="35.56" x2="149.86" y2="35.56" width="0.1524" layer="91"/>
-<label x="149.86" y="35.56" size="1.778" layer="95"/>
+<wire x1="116.84" y1="35.56" x2="127" y2="35.56" width="0.1524" layer="91"/>
+<label x="127" y="35.56" size="1.778" layer="95"/>
 <pinref part="U1" gate="G$1" pin="18"/>
 </segment>
 </net>
-<net name="AIRBAG_UC" class="0">
+<net name="ABS_UC" class="0">
 <segment>
 <wire x1="35.56" y1="81.28" x2="43.18" y2="81.28" width="0.1524" layer="91"/>
 <label x="30.48" y="81.28" size="1.778" layer="95"/>
@@ -4287,8 +4273,8 @@ V 1.1 - Forgot to power CAN Chip
 </segment>
 <segment>
 <pinref part="U1" gate="G$1" pin="19"/>
-<wire x1="139.7" y1="38.1" x2="149.86" y2="38.1" width="0.1524" layer="91"/>
-<label x="149.86" y="38.1" size="1.778" layer="95"/>
+<wire x1="116.84" y1="38.1" x2="127" y2="38.1" width="0.1524" layer="91"/>
+<label x="127" y="38.1" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="N$1" class="0">
@@ -4307,8 +4293,8 @@ V 1.1 - Forgot to power CAN Chip
 <label x="149.86" y="116.84" size="1.778" layer="95"/>
 </segment>
 <segment>
-<wire x1="220.98" y1="91.44" x2="241.3" y2="91.44" width="0.1524" layer="91"/>
-<label x="220.98" y="91.44" size="1.778" layer="95"/>
+<wire x1="129.54" y1="73.66" x2="149.86" y2="73.66" width="0.1524" layer="91"/>
+<label x="129.54" y="73.66" size="1.778" layer="95"/>
 <pinref part="JP6" gate="A" pin="7"/>
 </segment>
 </net>
@@ -4319,47 +4305,47 @@ V 1.1 - Forgot to power CAN Chip
 <label x="114.3" y="111.76" size="1.778" layer="95"/>
 </segment>
 <segment>
-<wire x1="139.7" y1="17.78" x2="149.86" y2="17.78" width="0.1524" layer="91"/>
-<label x="149.86" y="17.78" size="1.778" layer="95"/>
+<wire x1="116.84" y1="17.78" x2="127" y2="17.78" width="0.1524" layer="91"/>
+<label x="127" y="17.78" size="1.778" layer="95"/>
 <pinref part="U1" gate="G$1" pin="15"/>
 </segment>
 </net>
 <net name="CAN_RX" class="0">
 <segment>
 <pinref part="U1" gate="G$1" pin="4"/>
-<label x="149.86" y="25.4" size="1.778" layer="95"/>
+<label x="127" y="25.4" size="1.778" layer="95"/>
 <pinref part="U5" gate="G$1" pin="R"/>
-<wire x1="139.7" y1="25.4" x2="182.88" y2="25.4" width="0.1524" layer="91"/>
+<wire x1="116.84" y1="25.4" x2="149.86" y2="25.4" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="CAN_TX" class="0">
 <segment>
 <pinref part="U1" gate="G$1" pin="5"/>
-<label x="149.86" y="33.02" size="1.778" layer="95"/>
+<label x="127" y="33.02" size="1.778" layer="95"/>
 <pinref part="U5" gate="G$1" pin="D"/>
-<wire x1="182.88" y1="33.02" x2="139.7" y2="33.02" width="0.1524" layer="91"/>
+<wire x1="149.86" y1="33.02" x2="116.84" y2="33.02" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$3" class="0">
 <segment>
 <pinref part="U5" gate="G$1" pin="CAN_H"/>
-<wire x1="210.82" y1="30.48" x2="215.9" y2="30.48" width="0.1524" layer="91"/>
+<wire x1="177.8" y1="30.48" x2="180.34" y2="30.48" width="0.1524" layer="91"/>
 <pinref part="R11" gate="G$1" pin="1"/>
-<wire x1="215.9" y1="30.48" x2="231.14" y2="30.48" width="0.1524" layer="91"/>
-<wire x1="215.9" y1="40.64" x2="215.9" y2="30.48" width="0.1524" layer="91"/>
-<junction x="215.9" y="30.48"/>
+<wire x1="180.34" y1="30.48" x2="193.04" y2="30.48" width="0.1524" layer="91"/>
+<wire x1="180.34" y1="40.64" x2="180.34" y2="30.48" width="0.1524" layer="91"/>
+<junction x="180.34" y="30.48"/>
 <pinref part="JP5" gate="G$1" pin="1"/>
 </segment>
 </net>
 <net name="N$19" class="0">
 <segment>
 <pinref part="U5" gate="G$1" pin="CAN_L"/>
-<wire x1="210.82" y1="27.94" x2="223.52" y2="27.94" width="0.1524" layer="91"/>
+<wire x1="177.8" y1="27.94" x2="182.88" y2="27.94" width="0.1524" layer="91"/>
 <pinref part="JP4" gate="G$1" pin="2"/>
-<wire x1="223.52" y1="27.94" x2="231.14" y2="27.94" width="0.1524" layer="91"/>
-<wire x1="228.6" y1="38.1" x2="223.52" y2="38.1" width="0.1524" layer="91"/>
-<wire x1="223.52" y1="38.1" x2="223.52" y2="27.94" width="0.1524" layer="91"/>
-<junction x="223.52" y="27.94"/>
+<wire x1="182.88" y1="27.94" x2="193.04" y2="27.94" width="0.1524" layer="91"/>
+<wire x1="193.04" y1="38.1" x2="182.88" y2="38.1" width="0.1524" layer="91"/>
+<wire x1="182.88" y1="38.1" x2="182.88" y2="27.94" width="0.1524" layer="91"/>
+<junction x="182.88" y="27.94"/>
 <pinref part="JP5" gate="G$1" pin="2"/>
 </segment>
 </net>
@@ -4367,7 +4353,7 @@ V 1.1 - Forgot to power CAN Chip
 <segment>
 <pinref part="JP4" gate="G$1" pin="1"/>
 <pinref part="R11" gate="G$1" pin="2"/>
-<wire x1="228.6" y1="40.64" x2="226.06" y2="40.64" width="0.1524" layer="91"/>
+<wire x1="193.04" y1="40.64" x2="190.5" y2="40.64" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$2" class="0">
@@ -4402,75 +4388,86 @@ V 1.1 - Forgot to power CAN Chip
 <segment>
 <pinref part="R9" gate="G$1" pin="2"/>
 <pinref part="U6" gate="G$1" pin="P$1"/>
-<wire x1="55.88" y1="60.96" x2="58.42" y2="60.96" width="0.1524" layer="91"/>
+<wire x1="33.02" y1="60.96" x2="35.56" y2="60.96" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$17" class="0">
 <segment>
 <pinref part="JP3" gate="G$1" pin="1"/>
-<wire x1="154.94" y1="5.08" x2="144.78" y2="5.08" width="0.1524" layer="91"/>
-<wire x1="144.78" y1="5.08" x2="144.78" y2="22.86" width="0.1524" layer="91"/>
+<wire x1="132.08" y1="5.08" x2="121.92" y2="5.08" width="0.1524" layer="91"/>
+<wire x1="121.92" y1="5.08" x2="121.92" y2="22.86" width="0.1524" layer="91"/>
 <pinref part="U1" gate="G$1" pin="0"/>
-<wire x1="144.78" y1="22.86" x2="139.7" y2="22.86" width="0.1524" layer="91"/>
+<wire x1="121.92" y1="22.86" x2="116.84" y2="22.86" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$4" class="0">
 <segment>
 <pinref part="U1" gate="G$1" pin="25"/>
 <pinref part="JP1" gate="A" pin="5"/>
-<wire x1="91.44" y1="35.56" x2="71.12" y2="35.56" width="0.1524" layer="91"/>
+<wire x1="68.58" y1="35.56" x2="48.26" y2="35.56" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$5" class="0">
 <segment>
 <pinref part="JP1" gate="A" pin="4"/>
 <pinref part="U1" gate="G$1" pin="26"/>
-<wire x1="71.12" y1="33.02" x2="91.44" y2="33.02" width="0.1524" layer="91"/>
+<wire x1="48.26" y1="33.02" x2="68.58" y2="33.02" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$6" class="0">
 <segment>
 <pinref part="JP1" gate="A" pin="1"/>
 <pinref part="U1" gate="G$1" pin="12"/>
-<wire x1="71.12" y1="25.4" x2="91.44" y2="25.4" width="0.1524" layer="91"/>
+<wire x1="48.26" y1="25.4" x2="68.58" y2="25.4" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$7" class="0">
 <segment>
 <pinref part="JP1" gate="A" pin="3"/>
 <pinref part="U1" gate="G$1" pin="13"/>
-<wire x1="91.44" y1="20.32" x2="78.74" y2="20.32" width="0.1524" layer="91"/>
-<wire x1="78.74" y1="20.32" x2="78.74" y2="30.48" width="0.1524" layer="91"/>
-<wire x1="78.74" y1="30.48" x2="71.12" y2="30.48" width="0.1524" layer="91"/>
+<wire x1="68.58" y1="20.32" x2="55.88" y2="20.32" width="0.1524" layer="91"/>
+<wire x1="55.88" y1="20.32" x2="55.88" y2="30.48" width="0.1524" layer="91"/>
+<wire x1="55.88" y1="30.48" x2="48.26" y2="30.48" width="0.1524" layer="91"/>
 <pinref part="JP1" gate="A" pin="6"/>
-<wire x1="71.12" y1="38.1" x2="78.74" y2="38.1" width="0.1524" layer="91"/>
-<wire x1="78.74" y1="38.1" x2="78.74" y2="30.48" width="0.1524" layer="91"/>
-<junction x="78.74" y="30.48"/>
+<wire x1="48.26" y1="38.1" x2="55.88" y2="38.1" width="0.1524" layer="91"/>
+<wire x1="55.88" y1="38.1" x2="55.88" y2="30.48" width="0.1524" layer="91"/>
+<junction x="55.88" y="30.48"/>
 </segment>
 </net>
 <net name="N$8" class="0">
 <segment>
-<wire x1="76.2" y1="40.64" x2="76.2" y2="27.94" width="0.1524" layer="91"/>
+<wire x1="53.34" y1="40.64" x2="53.34" y2="27.94" width="0.1524" layer="91"/>
 <pinref part="JP1" gate="A" pin="2"/>
-<wire x1="76.2" y1="27.94" x2="71.12" y2="27.94" width="0.1524" layer="91"/>
+<wire x1="53.34" y1="27.94" x2="48.26" y2="27.94" width="0.1524" layer="91"/>
 <pinref part="U1" gate="G$1" pin="14"/>
-<wire x1="91.44" y1="27.94" x2="76.2" y2="27.94" width="0.1524" layer="91"/>
-<junction x="76.2" y="27.94"/>
+<wire x1="68.58" y1="27.94" x2="53.34" y2="27.94" width="0.1524" layer="91"/>
+<junction x="53.34" y="27.94"/>
 <pinref part="JP1" gate="A" pin="7"/>
-<wire x1="71.12" y1="40.64" x2="76.2" y2="40.64" width="0.1524" layer="91"/>
+<wire x1="48.26" y1="40.64" x2="53.34" y2="40.64" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="3.3V" class="0">
 <segment>
 <pinref part="U5" gate="G$1" pin="VCC"/>
-<wire x1="182.88" y1="27.94" x2="180.34" y2="27.94" width="0.1524" layer="91"/>
-<wire x1="180.34" y1="27.94" x2="180.34" y2="20.32" width="0.1524" layer="91"/>
-<label x="177.8" y="17.78" size="1.778" layer="95"/>
+<wire x1="149.86" y1="27.94" x2="149.86" y2="20.32" width="0.1524" layer="91"/>
+<label x="147.32" y="17.78" size="1.778" layer="95"/>
 </segment>
 <segment>
-<wire x1="91.44" y1="63.5" x2="91.44" y2="55.88" width="0.1524" layer="91"/>
+<wire x1="68.58" y1="63.5" x2="68.58" y2="55.88" width="0.1524" layer="91"/>
 <pinref part="U1" gate="G$1" pin="3.3V"/>
-<label x="91.44" y="63.5" size="1.778" layer="95"/>
+<label x="68.58" y="63.5" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="ABS" class="0">
+<segment>
+<pinref part="U3" gate="G$1" pin="P$11"/>
+<wire x1="78.74" y1="78.74" x2="91.44" y2="78.74" width="0.1524" layer="91"/>
+<label x="91.44" y="78.74" size="1.778" layer="95"/>
+</segment>
+<segment>
+<wire x1="129.54" y1="81.28" x2="149.86" y2="81.28" width="0.1524" layer="91"/>
+<pinref part="JP6" gate="A" pin="4"/>
+<label x="129.54" y="81.28" size="1.778" layer="95"/>
 </segment>
 </net>
 </nets>

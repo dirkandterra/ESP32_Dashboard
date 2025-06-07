@@ -5,8 +5,8 @@
 #define HBEAM   23
 #define RTURN   22
 #define LTURN   21
-#define AIRBAG  19
-#define ABS     18
+#define ABS     19
+#define AIRBAG  18
 #define OIL     2
 #define BKLIGHT 15
 #define PB      0
@@ -150,6 +150,13 @@ void handle232(){
         }
         Serial.println(temp16);  
         sendInfo(3, temp16);
+        digitalWrite(HBEAM,0);
+        digitalWrite(RTURN,0);
+        digitalWrite(LTURN,1);
+        digitalWrite(ABS,0);
+        digitalWrite(AIRBAG,1);
+        digitalWrite(OIL,0);
+        digitalWrite(BKLIGHT,1);
         break;      
      case '4':
         dataLength-=1;   //Don't count the first byte identifier
@@ -159,6 +166,13 @@ void handle232(){
         }
         Serial.println(temp16);  
         sendInfo(4, temp16);
+        digitalWrite(HBEAM,1);
+        digitalWrite(RTURN,1);
+        digitalWrite(LTURN,0);
+        digitalWrite(ABS,1);
+        digitalWrite(AIRBAG,0);
+        digitalWrite(OIL,1);
+        digitalWrite(BKLIGHT,0);
         break;
      case '5':
         dataLength-=1;   //Don't count the first byte identifier
