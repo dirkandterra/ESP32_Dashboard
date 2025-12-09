@@ -211,12 +211,12 @@ int gypsyMath2(int in)
 {
 if (in>=100)
   {
-    return 232;  //38+192
+    return 227;  //33+192
   }
   else
   {
     int i=in/10;
     i=((in%10)*(gaugeData2[i+1]-gaugeData2[i]))/10 +gaugeData2[i];
-    return (i+38);
+    return (i+33);
   }
 }
