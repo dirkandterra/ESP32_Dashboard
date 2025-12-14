@@ -48,7 +48,7 @@ void senddispToVFD()
   datachar = 2;
   SPI.beginTransaction(spiSettings);
   SPI.transfer(datachar);
-  Serial.println("************************");
+  //Serial.println("************************");
 	for (z=0;z<8;z++)							//there will be (8) 8 bit xfers
 	{	
     data16=0;

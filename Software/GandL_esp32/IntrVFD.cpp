@@ -9,7 +9,6 @@
 #define MAX_VFD_CHAR 6
 int bottom3=0;
 int top3=0;
-uint8_t prepIt=0;
 unsigned char vfd[8]={'3','2','1','C','B','A',0X00,0X00};
 unsigned char vfdTemp[8];
 unsigned char Font[64] = 
@@ -29,7 +28,7 @@ uint8_t segAddr[8][7]={{21,18,14,11,8,4,1},{22,19,15,12,9,5,2},
                       {17,63,61,59,27,29,31},{7,39,48,16,57,49,25}};
                       //{31,29,27,59,61,63,17},{25,49,57,16,48,39,7}};
 
-void populateVFD(void);
+//void populateVFD(void);
 void smarterPopulateVFD(void);
 void clearDisp(void);
 void setVfdExtra(uint16_t symbol,uint8_t on);
@@ -229,7 +228,7 @@ void smarterPopulateVFD(void){
 }
 
 //-_-_-_-_-_-_-_-_ Send Dimming Info to VFD -_-_-_-_-_-_-
-void populateVFD(void)
+/*void populateVFD(void)
 {
   char dig=3;
   char digBase=3;
@@ -332,6 +331,6 @@ void populateVFD(void)
   if (vfd[6]&0x04){vfdString[3]=vfdString[3]|0x20;}
   if (vfd[6]&0x02){vfdString[3]=vfdString[3]|0x80;}
 
-}
+}*/
 
 

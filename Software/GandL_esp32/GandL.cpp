@@ -1,7 +1,9 @@
 //Guage and Lights Only
 #include "RS232Decode.h"
 #include "IntrVFD.h"
+#include "GandL.h"
 
+NodeRedData ServerData = {0,0,0,0,0,0,0,0,0,0,0,0};
 int gaugeData[25]={0,34,65,96,125,155,181,204,232,256,279,303,329,352,382,410,438,466,497,528,559,590,621,649,677};
 int gaugeData2[25]={0,23,44,62,83,102,120,138,156,176,196};
 char CBuffLen=0;
@@ -15,7 +17,6 @@ int mphData=261;
 int gasData=38;
 int tempData=38;
 int lightData=0;
-char forecast[8]={0x64,0x3F,0x63,0x3E,0x62,0x3D,0x61,0x3C};
 char mode=0;
 int oldMPH=261;
 int oldRPM=261;
@@ -25,7 +26,6 @@ uint8_t vfd_count=0;
 int gypsyMath(int in);
 int gypsyMath2(int in);
 void vfdPrep(void);
-
 
 void sendInfo(uint8_t gauge, uint16_t value){
 	switch(gauge){
@@ -89,25 +89,17 @@ void updateGuages_Lights(){
   sendToLights();
 }
 //####################################################
-void sendVFD(uint8_t *c, uint8_t n){
+void sendVFD(uint8_t *c){
 	clearDisp();
-    /*vfd[6]=c[7];
-    vfd[7]=c[8];
-    vfd[5]=c[1];
-    vfd[4]=c[2];
-    vfd[3]=c[3];
-    vfd[2]=c[4];
-    vfd[1]=c[5];
-    vfd[0]=c[6];*/
-    if(n){
+    if(1){
 	    smarterPopulateVFD();
     }else{
-      populateVFD();
+      //populateVFD();
     }
 	sendVFDDimming();
 	senddispToVFD();
 	vfd_count++;
-	if(vfd_count>7)
+	if(vfd_count>9)
 		vfd_count=0;
 }
 
@@ -139,11 +131,14 @@ void testVFD(uint16_t value){
 }
 
 //####################################################
-void vfdPrep()
+void vfdWeatherPrep()
 {
 
-	sendInfo(2,vfd_count*10);
-	printNumToVFD(forecast[vfd_count],2,4,0,J_RIGHT,vfd);
+	sendInfo(3,ServerData.precipPercent);
+  sendInfo(2,vfd_count*10);
+  sendInfo(1,ServerData.currentTemp);
+  sendInfo(0,ServerData.currentWind*10);
+	printNumToVFD(ServerData.forecast[vfd_count],2,4,0,J_RIGHT,vfd);
 
 	if(vfd_count%2==0)
 	{
@@ -160,7 +155,11 @@ void vfdPrep()
 	{
 		setVfdExtra(vfdPRN,1);
     setVfdExtra(vfdD3L,1);
+    setVfdExtra(vfdLow,0);
+    setVfdExtra(vfd3,0);
     setVfdExtra(vfdD,0);
+    setVfdExtra(vfdN,0);
+    setVfdExtra(vfdR,0);
 		setVfdExtra(vfdP,1);
 	}
 		else if (vfd_count<4)
@@ -177,19 +176,24 @@ void vfdPrep()
 		setVfdExtra(vfdR,0);
     setVfdExtra(vfdN,1);
 	}
-	else
+	else if(vfd_count<8)
 	{
 		setVfdExtra(vfdPRN,1);
     setVfdExtra(vfdD3L,1);
 		setVfdExtra(vfdN,0);
     setVfdExtra(vfdD,1);
-	}	
-      Serial.print(vfd[5],HEX);
+	}else{
+		setVfdExtra(vfdPRN,1);
+    setVfdExtra(vfdD3L,1);
+		setVfdExtra(vfdD,0);
+    setVfdExtra(vfd3,1);   
+  }
+      /*Serial.print(vfd[5],HEX);
       Serial.print(vfd[4],HEX);
       Serial.print(vfd[3],HEX);
       Serial.print(vfd[2],HEX);
       Serial.print(vfd[1],HEX);
-      Serial.println(vfd[0],HEX);	
+      Serial.println(vfd[0],HEX);	*/
 
 }
 

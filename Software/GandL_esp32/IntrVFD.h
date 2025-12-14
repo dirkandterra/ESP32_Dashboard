@@ -15,14 +15,13 @@
 #endif
 enum{J_LEFT,J_MID,J_RIGHT};
 extern unsigned char vfd[8];
-extern void populateVFD(void);
+//extern void populateVFD(void);
 extern void smarterPopulateVFD(void);
 extern void setVfdExtra(uint16_t symbol,uint8_t on);
 extern void clearDisp(void);
 extern uint8_t printNumToVFD(int32_t num,uint8_t start,uint8_t len,uint8_t dec,uint8_t justify,uint8_t *destArray);
 extern void printTextToVFD(char *c,uint8_t start,uint8_t len,uint8_t justify,uint8_t *destArray);
 int expand(char c);
-extern uint8_t prepIt;
 
 enum vfdExtras{
   vfdLow=0x02,
