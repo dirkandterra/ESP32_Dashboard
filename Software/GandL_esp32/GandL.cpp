@@ -96,7 +96,7 @@ void sendVFD(uint8_t *c){
     }else{
       //populateVFD();
     }
-	sendVFDDimming();
+	//sendVFDDimming();
 	senddispToVFD();
 	vfd_count++;
 	if(vfd_count>9)

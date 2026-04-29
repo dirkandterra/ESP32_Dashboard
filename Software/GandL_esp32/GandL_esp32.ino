@@ -187,6 +187,7 @@ void setup() {
   digitalWrite(AIRBAG,1);
   digitalWrite(OIL,1);
   digitalWrite(BKLIGHT,1);
+  setVFDDimming(0x02);
   printTextToVFD("888888",0,6,J_LEFT,vfd);
   sendVFD(vfd);
 
