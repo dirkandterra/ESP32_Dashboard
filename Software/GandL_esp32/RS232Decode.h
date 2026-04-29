@@ -16,6 +16,8 @@
 #define HSPI_MOSI GPIO_NUM_13
 #define HSPI_SCLK GPIO_NUM_14
 
+extern char vfdDimming;
+
 	void senddispToVFD(void);
 	char storedispdata(char);
 	char toprow(char);

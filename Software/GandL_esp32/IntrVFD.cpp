@@ -33,6 +33,10 @@ void smarterPopulateVFD(void);
 void clearDisp(void);
 void setVfdExtra(uint16_t symbol,uint8_t on);
 
+void setVFDDimming(uint8_t dim){
+    vfdDimming = dim;
+    sendVFDDimming();
+}
 
 void clearDisp()
 {	

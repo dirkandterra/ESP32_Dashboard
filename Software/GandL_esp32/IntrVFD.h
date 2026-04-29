@@ -16,6 +16,7 @@
 enum{J_LEFT,J_MID,J_RIGHT};
 extern unsigned char vfd[8];
 //extern void populateVFD(void);
+void setVFDDimming(uint8_t dim);
 extern void smarterPopulateVFD(void);
 extern void setVfdExtra(uint16_t symbol,uint8_t on);
 extern void clearDisp(void);

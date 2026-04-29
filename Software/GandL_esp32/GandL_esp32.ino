@@ -3,6 +3,7 @@
 #include "EE.h"
 #include "GandL.h"
 #include "IntrVFD.h"
+#include "CANDash.h"
 
 #define VER "1.00"
 
@@ -37,7 +38,7 @@ typedef struct _pb{
 }pb_T;
 
 typedef struct rxBuff{
-  uint8_t data[10];
+  uint8_t data[50];
   uint8_t rxPtr;
 }rxBuff;
 rxBuff rx232;
@@ -87,7 +88,6 @@ void setup() {
   sendInfo(2, 100);
   sendInfo(3, 100);
   sendInfo(4, 0xFFFF);
-
   digitalWrite(HBEAM,1);
   digitalWrite(RTURN,1);
   digitalWrite(LTURN,1);
@@ -95,6 +95,7 @@ void setup() {
   digitalWrite(AIRBAG,1);
   digitalWrite(OIL,1);
   digitalWrite(BKLIGHT,1);
+  setVFDDimming(0x02);
   printTextToVFD("888888",0,6,J_LEFT,vfd);
   sendVFD(vfd);
   init_EEVars();
@@ -143,6 +144,8 @@ void loop() {
       if(GaugeMode>=GMODE_END){
         GaugeMode=0;
       }
+      EE.gaugeMode = GaugeMode;
+      EEPROM_Write(&EE.gaugeMode, 1);
       clearAll(0);
       switch(GaugeMode){
         default:
@@ -189,7 +192,18 @@ void loop() {
         displayInfoUpdate=loopMillis+2000;
         break;
       case GMODE_CAN:
-        //todo
+        CANProcess(EE.chanCfg, NUM_CHANNELS);
+        for (uint8_t ch = 0; ch < 4; ch++) {
+          if (canData.ch[ch].updated) {
+            sendInfo(ch, (uint16_t)canData.ch[ch].val);
+            canData.ch[ch].updated = 0;
+          }
+        }
+        if (!vfdLockout && canData.ch[NUM_CHANNELS-1].valid) {
+          printNumToVFD((uint16_t)canData.ch[NUM_CHANNELS-1].val, 0, 6, 0, J_RIGHT, vfd);
+          sendVFD(vfd);
+        }
+        displayInfoUpdate = loopMillis + 200;
         break;
     }    
   }
@@ -210,18 +224,17 @@ void loop() {
 
 void serialEvent() {
   while (Serial.available()) {
-    // get the new byte:
-    char inChar = (char)Serial.read();
-    if(GaugeMode==GMODE_SERIAL){
-      if (inChar == '\r') {
+    uint8_t inByte = (uint8_t)Serial.read();
+    if(inByte == '\r'){
+      // Config commands work in any mode; gauge commands only in GMODE_SERIAL
+      if(rx232.data[0] == 'C' || rx232.data[0] == 'Q' || GaugeMode == GMODE_SERIAL){
         stringComplete = true;
+      } else {
+        rx232.rxPtr = 0;
       }
-      else if(inChar=='\n'){
-        
-      }      
-      else{
-        rx232.data[rx232.rxPtr] = inChar;
-        rx232.rxPtr++;
+    } else if(inByte != '\n'){
+      if(rx232.rxPtr < sizeof(rx232.data) - 1){
+        rx232.data[rx232.rxPtr++] = inByte;
       }
     }
   }
@@ -351,6 +364,42 @@ void handle232(){
     case 'V':
       Serial.println(VER);
       break;
+    case 'C': {
+      rx232.data[rx232.rxPtr] = '\0';
+      char *tok = strtok((char*)&rx232.data[1], ",");
+      if(!tok) break;
+      uint8_t ch = (uint8_t)atoi(tok);
+      if(ch >= NUM_CHANNELS){ Serial.println("CFG: bad channel"); break; }
+      ChanConfig_t *cfg = &EE.chanCfg[ch];
+      if((tok = strtok(NULL, ","))) {
+        uint32_t pgn = strtoul(tok, NULL, 16);
+        cfg->pgn[0] = (pgn >> 16) & 0xFF;
+        cfg->pgn[1] = (pgn >>  8) & 0xFF;
+        cfg->pgn[2] =  pgn        & 0xFF;
+      }
+      if((tok = strtok(NULL, ","))) cfg->source    = (uint8_t)strtoul(tok, NULL, 16);
+      if((tok = strtok(NULL, ","))) cfg->dataStart = (uint8_t)atoi(tok);
+      if((tok = strtok(NULL, ","))) cfg->dataLen   = (uint8_t)atoi(tok);
+      if((tok = strtok(NULL, ","))) cfg->gain      = atof(tok);
+      if((tok = strtok(NULL, ","))) cfg->offset    = atof(tok);
+      EEPROM_Write((uint8_t*)cfg, sizeof(ChanConfig_t));
+      Serial.printf("CFG ch%d: PGN=%02X%02X%02X src=%02X dStart=%d dLen=%d gain=%.4f off=%.4f\r\n",
+        ch, cfg->pgn[0], cfg->pgn[1], cfg->pgn[2],
+        cfg->source, cfg->dataStart, cfg->dataLen,
+        cfg->gain, cfg->offset);
+      break;
+    }
+    case 'Q': {
+      uint8_t ch = (dataLength > 1) ? (rx232.data[1] - '0') : 0;
+      if(ch < NUM_CHANNELS){
+        ChanConfig_t *cfg = &EE.chanCfg[ch];
+        Serial.printf("ch%d: PGN=%02X%02X%02X src=%02X dStart=%d dLen=%d gain=%.4f off=%.4f\r\n",
+          ch, cfg->pgn[0], cfg->pgn[1], cfg->pgn[2],
+          cfg->source, cfg->dataStart, cfg->dataLen,
+          cfg->gain, cfg->offset);
+      }
+      break;
+    }
     default:
       break;
       

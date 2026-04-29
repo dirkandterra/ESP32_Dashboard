@@ -49,6 +49,8 @@ void init_EEVars(void){
   int ii=0;
   //initialize eevars
   EEPROM_Read(&EE.initialized,1);
+  Serial.print("Initialized: ");
+  Serial.println(EE.initialized);
   if(EE.initialized==INITVAL){
     for(ii=0;ii<49;ii++){
         EEPROM_Read((uint8_t*)&EE.ssid[ii],1);
@@ -58,7 +60,10 @@ void init_EEVars(void){
     for(ii=0;ii<29;ii++){
         EEPROM_Read((uint8_t*)&EE.pwd[ii],1);
         if(EE.pwd[ii]==0){ii=30;}
-    }    
+    }
+    EEPROM_Read((uint8_t*)&EE.chanCfg, sizeof(EE.chanCfg));
+    EEPROM_Read(&EE.gaugeMode, 1);
+    if(EE.gaugeMode < GMODE_END) GaugeMode = EE.gaugeMode;
   }
   else{
     factoryReset();
