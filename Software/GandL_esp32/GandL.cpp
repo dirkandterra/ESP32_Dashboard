@@ -2,8 +2,8 @@
 #include "RS232Decode.h"
 #include "IntrVFD.h"
 #include "GandL.h"
+#include "WIFI_MQTT.h"
 
-NodeRedData ServerData = {0,0,0,0,0,0,0,0,0,0,0,0};
 int gaugeData[25]={0,34,65,96,125,155,181,204,232,256,279,303,329,352,382,410,438,466,497,528,559,590,621,649,677};
 int gaugeData2[25]={0,23,44,62,83,102,120,138,156,176,196};
 char CBuffLen=0;
