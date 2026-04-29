@@ -27,7 +27,6 @@ uint32_t vfdLockoutTimer=0;
 uint8_t vfdLockout=0;
 
 uint32_t startupTest=1;
-uint8_t GaugeMode = 0;
 uint8_t backlight = 0;
 typedef struct _pb{
   uint8_t currentRead;
@@ -54,14 +53,6 @@ enum{
   PRESS_NONE,
   PRESS_SHORT,
   PRESS_LONG
-};
-
-enum{
-  GMODE_SERIAL,
-  GMODE_WEATHER,
-  GMODE_TSTAT,
-  GMODE_CAN,
-  GMODE_END
 };
 
 void setup() {
@@ -145,7 +136,7 @@ void loop() {
         GaugeMode=0;
       }
       EE.gaugeMode = GaugeMode;
-      EEPROM_Write(&EE.gaugeMode, 1);
+      Save_GaugeMode();
       clearAll(0);
       switch(GaugeMode){
         default:
@@ -382,7 +373,7 @@ void handle232(){
       if((tok = strtok(NULL, ","))) cfg->dataLen   = (uint8_t)atoi(tok);
       if((tok = strtok(NULL, ","))) cfg->gain      = atof(tok);
       if((tok = strtok(NULL, ","))) cfg->offset    = atof(tok);
-      EEPROM_Write((uint8_t*)cfg, sizeof(ChanConfig_t));
+      Save_CANChan(cfg);
       Serial.printf("CFG ch%d: PGN=%02X%02X%02X src=%02X dStart=%d dLen=%d gain=%.4f off=%.4f\r\n",
         ch, cfg->pgn[0], cfg->pgn[1], cfg->pgn[2],
         cfg->source, cfg->dataStart, cfg->dataLen,

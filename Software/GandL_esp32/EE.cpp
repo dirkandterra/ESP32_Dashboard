@@ -7,7 +7,7 @@
 #define INITVAL 0x5C
 
 EEVars EE;
-
+uint8_t GaugeMode = 0;
 uint8_t *EE_START=(uint8_t *)&EE.initialized;
 
 void EEPROM_Read(uint8_t *data, uint8_t bytes){
@@ -25,6 +25,12 @@ void EEPROM_Write(uint8_t *data, uint8_t bytes){
        EEPROM.commit();
     }
     
+}
+void Save_GaugeMode(){
+  EEPROM_Write(&EE.gaugeMode, 1);
+}
+void Save_CANChan(ChanConfig_t *cfg){
+  EEPROM_Write((uint8_t*)cfg, sizeof(ChanConfig_t));
 }
 void backupWifiVars(){
     int zz=0;
