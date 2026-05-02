@@ -49,6 +49,7 @@ rxBuff rx232;
 pb_T pb;
 boolean stringComplete=false;
 
+void writeModeToVFD(uint32_t currentMillis);
 void handle232(void);
 void clearAll(uint8_t includeBacklight);
 double del = 100000;
@@ -187,8 +188,8 @@ void setup() {
   digitalWrite(AIRBAG,1);
   digitalWrite(OIL,1);
   digitalWrite(BKLIGHT,1);
-  setVFDDimming(0x02);
   printTextToVFD("888888",0,6,J_LEFT,vfd);
+  setVFDDimming(0x02);
   sendVFD(vfd);
 
 //initialize eevars
@@ -334,25 +335,7 @@ void loop() {
       }
       EE.gaugeMode = GaugeMode;
       EEPROM_Write(&EE.gaugeMode, 1);
-      clearAll(0);
-      switch(GaugeMode){
-        default:
-        case GMODE_SERIAL:
-          printTextToVFD("SERIAL",0,6,J_LEFT,vfd);
-          break;
-        case GMODE_WEATHER:
-          printTextToVFD("WEATHR",0,6,J_LEFT,vfd);
-          break;
-        case GMODE_TSTAT:
-          printTextToVFD("TSTAT ",0,6,J_LEFT,vfd);
-          break;
-        case GMODE_CAN:
-          printTextToVFD("CAN   ",0,6,J_LEFT,vfd);
-          break;
-      }
-      sendVFD(vfd);
-      vfdLockoutTimer=loopMillis+3000;  //Let the display show the mode for 3 seconds before changing
-      vfdLockout=true;
+      writeModeToVFD(loopMillis);
       Serial.println(GaugeMode);
       
     }
@@ -403,10 +386,7 @@ void loop() {
   if((loopMillis>startupTest) && startupTest>0){
     startupTest=0;  //one time only
     clearAll(1);
-    printTextToVFD("SERIAL",0,6,J_LEFT,vfd);
-    sendVFD(vfd);
-    vfdLockoutTimer=loopMillis+3000;  //Let the display show the mode for 3 seconds before changing
-    vfdLockout=true;
+    writeModeToVFD(loopMillis);
   }
 }
 
@@ -615,4 +595,27 @@ void clearAll(uint8_t includeBacklight){
   }
   printTextToVFD("      ",0,6,J_LEFT,vfd);
   sendVFD(vfd);
+}
+
+void writeModeToVFD(uint32_t currentMillis){
+      clearAll(0);
+      switch(GaugeMode){
+        default:
+        case GMODE_SERIAL:
+          printTextToVFD("SERIAL",0,6,J_LEFT,vfd);
+          break;
+        case GMODE_WEATHER:
+          printTextToVFD("WEATHR",0,6,J_LEFT,vfd);
+          break;
+        case GMODE_TSTAT:
+          printTextToVFD("TSTAT ",0,6,J_LEFT,vfd);
+          break;
+        case GMODE_CAN:
+          printTextToVFD("CAN   ",0,6,J_LEFT,vfd);
+          break;
+      }
+      setVFDDimming(0x02);
+      sendVFD(vfd);
+      vfdLockoutTimer=currentMillis+3000;  //Let the display show the mode for 3 seconds before changing
+      vfdLockout=true;
 }
