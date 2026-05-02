@@ -36,6 +36,8 @@ void DecodeInit(){
 //-_-_-_-_-_-_-_-_ Send Dimming Info to VFD -_-_-_-_-_-_-
 void sendVFDDimming()
 {
+  Serial.print("VFDDim: ");
+  Serial.println(vfdDimming);
   SPI.beginTransaction(spiSettings);
   data16=0x0F00+vfdDimming;
   SPI.transfer16(data16);
@@ -52,6 +54,8 @@ void senddispToVFD()
 	for (z=0;z<8;z++)							//there will be (8) 8 bit xfers
 	{	
     data16=0;
+    Serial.print("VFD: ");
+    Serial.println(from);
     //Serial.println(vfdString[z],HEX);
     data16 = (vfdString[z++]<<8);
     data16 +=vfdString[z];

@@ -20,6 +20,8 @@ int lightData=0;
 char mode=0;
 int oldMPH=261;
 int oldRPM=261;
+int oldGas=110;
+int oldTemp=110;
 uint8_t dectrip=0;
 uint8_t vfd_count=0;
 //261,5.25,22,41.1,61.8,80,96.5,113.5,936
@@ -32,7 +34,7 @@ void sendInfo(uint8_t gauge, uint16_t value){
 		
 		case 0:
 			rpmData=(int)(double(value)*12/7);
-      rpmData=gypsyMath(rpmData);
+      		rpmData=gypsyMath(rpmData);
 			break;
 	
 		case 1:
@@ -66,6 +68,7 @@ void updateGuages_Lights(){
   int diff;
 
   diff=rpmData-oldRPM;
+  if(oldRPM==rpmData && oldMPH==mphData && tempData==oldTemp && gasData==oldGas)
   if (diff<100 && diff>-100) {oldRPM=rpmData;}
   else {oldRPM=oldRPM+diff/6;}
 
@@ -73,6 +76,8 @@ void updateGuages_Lights(){
   if (diff<100 && diff>-100) {oldMPH=mphData;}
   else {oldMPH=oldMPH+diff/6;}
 
+  oldTemp=tempData;
+  oldGas=gasData;
 
   gaugeString[0]=oldMPH/256;
   gaugeString[1]=oldMPH%256;
@@ -86,10 +91,10 @@ void updateGuages_Lights(){
 
   lightString[0]=lightData/256;
   lightString[1]=lightData%256;
-  sendToLights();
+  //sendToLights();
 }
 //####################################################
-void sendVFD(uint8_t *c){
+void sendVFD(uint8_t *c, uint8_t from){
 	clearDisp();
     if(1){
 	    smarterPopulateVFD();
@@ -97,6 +102,8 @@ void sendVFD(uint8_t *c){
       //populateVFD();
     }
 	//sendVFDDimming();
+	Serial.print("VFD: ");
+    Serial.println(from);
 	senddispToVFD();
 	vfd_count++;
 	if(vfd_count>9)

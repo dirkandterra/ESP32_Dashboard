@@ -10,7 +10,7 @@ typedef struct _tempData{
 }NodeRedData;
 
 	void sendInfo(uint8_t gauge, uint16_t value);
-  void sendVFD(uint8_t *c);
+  void sendVFD(uint8_t *c, uint8_t from);
 	void testVFD(uint16_t value);
   extern NodeRedData ServerData;
   extern void vfdWeatherPrep(void);

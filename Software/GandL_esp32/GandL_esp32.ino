@@ -189,7 +189,7 @@ void setup() {
   digitalWrite(BKLIGHT,1);
   setVFDDimming(0x02);
   printTextToVFD("888888",0,6,J_LEFT,vfd);
-  sendVFD(vfd);
+  sendVFD(vfd,8);
 
 //initialize eevars
   EEPROM_Read(&EE.initialized,1);
@@ -350,7 +350,7 @@ void loop() {
           printTextToVFD("CAN   ",0,6,J_LEFT,vfd);
           break;
       }
-      sendVFD(vfd);
+      sendVFD(vfd,1);
       vfdLockoutTimer=loopMillis+3000;  //Let the display show the mode for 3 seconds before changing
       vfdLockout=true;
       Serial.println(GaugeMode);
@@ -371,7 +371,7 @@ void loop() {
       case GMODE_WEATHER:
         vfdWeatherPrep();
         if(!vfdLockout){
-          sendVFD(vfd);
+          sendVFD(vfd,2);
         }
         displayInfoUpdate=loopMillis+2000;
         break;
@@ -389,14 +389,14 @@ void loop() {
         }
         if (!vfdLockout && canData.ch[NUM_CHANNELS-1].valid) {
           printNumToVFD((uint16_t)canData.ch[NUM_CHANNELS-1].val, 0, 6, 0, J_RIGHT, vfd);
-          sendVFD(vfd);
+          sendVFD(vfd,3);
         }
         displayInfoUpdate = loopMillis + 200;
         break;
     }    
   }
   if(loopMillis>timerGaugeAndLights){
-    timerGaugeAndLights=loopMillis+50;
+    timerGaugeAndLights=loopMillis+250;
     updateGuages_Lights();
   }
   //#################only runs once after bootup###############
@@ -404,7 +404,7 @@ void loop() {
     startupTest=0;  //one time only
     clearAll(1);
     printTextToVFD("SERIAL",0,6,J_LEFT,vfd);
-    sendVFD(vfd);
+    sendVFD(vfd,4);
     vfdLockoutTimer=loopMillis+3000;  //Let the display show the mode for 3 seconds before changing
     vfdLockout=true;
   }
@@ -506,7 +506,7 @@ void handle232(){
     case '6':
       dataLength-=1;   //Don't count the first byte identifier 
       if(!vfdLockout){
-        sendVFD(rx232.data);
+        sendVFD(rx232.data,5);
       }
       break;
 
@@ -527,7 +527,7 @@ void handle232(){
       sendInfo(1, temp16);
       printTextToVFD((char *)rx232.data,0,6,J_LEFT,vfd);
       if(!vfdLockout){
-        sendVFD(rx232.data);
+        sendVFD(rx232.data,6);
       }
       break;
 
@@ -536,7 +536,7 @@ void handle232(){
       printTextToVFD("L",0,2,J_LEFT,vfd);
       printNumToVFD(1013,2,4,1,J_RIGHT,vfd);
       if(!vfdLockout){
-        sendVFD(rx232.data);
+        sendVFD(rx232.data,7);
       }
       break;
     case 'A':
@@ -614,5 +614,5 @@ void clearAll(uint8_t includeBacklight){
     digitalWrite(BKLIGHT,0);
   }
   printTextToVFD("      ",0,6,J_LEFT,vfd);
-  sendVFD(vfd);
+  sendVFD(vfd,0);
 }
