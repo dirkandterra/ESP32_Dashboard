@@ -192,7 +192,7 @@ void setup() {
   printTextToVFD("888888",0,6,J_LEFT,vfd);
   setVfdExtra(vfdAll,1);
   setVFDDimming(0x02);
-  sendVFD(vfd,1);
+  sendVFD(vfd);
   delay(500);
 
 //initialize eevars
@@ -357,7 +357,7 @@ void loop() {
       case GMODE_WEATHER:
         vfdWeatherPrep();
         if(!vfdLockout){
-          sendVFD(vfd,2);
+          sendVFD(vfd);
         }
         displayInfoUpdate=loopMillis+2000;
         break;
@@ -375,7 +375,7 @@ void loop() {
         }
         if (!vfdLockout && canData.ch[NUM_CHANNELS-1].valid) {
           printNumToVFD((uint16_t)canData.ch[NUM_CHANNELS-1].val, 0, 6, 0, J_RIGHT, vfd);
-          sendVFD(vfd,3);
+          sendVFD(vfd);
         }
         displayInfoUpdate = loopMillis + 200;
         break;
@@ -390,7 +390,7 @@ void loop() {
     startupTest=0;  //one time only
     clearAll(1);
     printTextToVFD("SERIAL",0,6,J_LEFT,vfd);
-    sendVFD(vfd,4);
+    sendVFD(vfd);
     vfdLockoutTimer=loopMillis+3000;  //Let the display show the mode for 3 seconds before changing
     vfdLockout=true;
   }
@@ -492,7 +492,7 @@ void handle232(){
     case '6':
       dataLength-=1;   //Don't count the first byte identifier 
       if(!vfdLockout){
-        sendVFD(rx232.data,5);
+        sendVFD(rx232.data);
       }
       break;
 
@@ -513,7 +513,7 @@ void handle232(){
       sendInfo(1, temp16);
       printTextToVFD((char *)rx232.data,0,6,J_LEFT,vfd);
       if(!vfdLockout){
-        sendVFD(rx232.data,6);
+        sendVFD(rx232.data);
       }
       break;
 
@@ -522,7 +522,7 @@ void handle232(){
       printTextToVFD("L",0,2,J_LEFT,vfd);
       printNumToVFD(1013,2,4,1,J_RIGHT,vfd);
       if(!vfdLockout){
-        sendVFD(rx232.data,7);
+        sendVFD(rx232.data);
       }
       break;
     case '9':
@@ -609,7 +609,7 @@ void clearAll(uint8_t includeBacklight){
   printTextToVFD("      ",0,6,J_LEFT,vfd);
   setVfdExtra(vfdAll,0);
   setVFDDimming(0x02);
-  sendVFD(vfd,8);
+  sendVFD(vfd);
 }
 
 void writeModeToVFD(uint32_t currentMillis){
@@ -630,7 +630,7 @@ void writeModeToVFD(uint32_t currentMillis){
           break;
       }
       setVFDDimming(0x02);
-      sendVFD(vfd,9);
+      sendVFD(vfd);
       vfdLockoutTimer=currentMillis+3000;  //Let the display show the mode for 3 seconds before changing
       vfdLockout=true;
 }

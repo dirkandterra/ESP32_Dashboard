@@ -96,16 +96,13 @@ void updateGuages_Lights() {
 }
 
 //####################################################
-void sendVFD(uint8_t *c, uint8_t from) {
+void sendVFD(uint8_t *c) {
     clearDisp();
     if (1) {
         smarterPopulateVFD();
     } else {
         //populateVFD();
     }
-    //sendVFDDimming();
-    Serial.print("VFD: ");
-    Serial.println(from);
 
     senddispToVFD();
     vfd_count++;

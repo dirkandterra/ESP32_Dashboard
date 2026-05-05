@@ -179,7 +179,7 @@ void setVfdExtra(uint16_t symbol,uint8_t on){
   if(symbol==vfdAll){
     if(on){
         vfd[7]=0xFF;
-        vfd[6]=0xFD;
+        vfd[6]=0xFE;
     }else{
         vfd[7]=0x00;
         vfd[6]=0x00;
