@@ -18,7 +18,7 @@
 
 extern char vfdDimming;
 
-	void senddispToVFD(void);
+	void senddispToVFD();
 	char storedispdata(char);
 	char toprow(char);
 	char botrow(char);

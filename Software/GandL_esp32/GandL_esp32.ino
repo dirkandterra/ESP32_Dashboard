@@ -418,6 +418,6 @@ void writeModeToVFD(uint32_t currentMillis){
 	  break;
   }
   sendVFD(vfd);
-  vfdLockoutTimer=loopMillis+3000;  //Let the display show the mode for 3 seconds before changing
+  vfdLockoutTimer=currentMillis+3000;  //Let the display show the mode for 3 seconds before changing
   vfdLockout=true;
 }

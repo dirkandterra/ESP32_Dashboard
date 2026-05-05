@@ -17,7 +17,7 @@ unsigned char lightString[2];
 char vfdString[8];
 //char vfdDimming=0xD0;
 char vfdDimming=0x02;
-SPISettings spiSettings(100000,MSBFIRST,SPI_MODE1);
+SPISettings spiSettings(1000000,MSBFIRST,SPI_MODE1);
 void VFDData(uint8_t in);
 
 //******************
@@ -38,6 +38,8 @@ void sendVFDDimming()
 {
   SPI.beginTransaction(spiSettings);
   data16=0x0F00+vfdDimming;
+  SPI.transfer16(0x0000);         //First send a blank to reset the VFD's internal pointer
+  pulseVFDLoad();
   SPI.transfer16(data16);
   SPI.endTransaction();
 	pulseVFDLoad();
@@ -45,14 +47,14 @@ void sendVFDDimming()
 //############### Send Info to VFD##################
 void senddispToVFD()
 {
+  sendVFDDimming();
   datachar = 2;
   SPI.beginTransaction(spiSettings);
   SPI.transfer(datachar);
-  //Serial.println("************************");
+
 	for (z=0;z<8;z++)							//there will be (8) 8 bit xfers
 	{	
     data16=0;
-    //Serial.println(vfdString[z],HEX);
     data16 = (vfdString[z++]<<8);
     data16 +=vfdString[z];
 		SPI.transfer16(data16);								
@@ -60,6 +62,7 @@ void senddispToVFD()
 	}
   SPI.endTransaction();
 	pulseVFDLoad();
+
 }
 
 void pulseVFDLoad()
@@ -92,6 +95,7 @@ void sendToGauges()
   datachar = gaugeString[7];
   SPI.transfer(datachar);					
   SPI.endTransaction();	
+
 	gpio_set_level(G_CHIPSEL,LOW);
 }
 

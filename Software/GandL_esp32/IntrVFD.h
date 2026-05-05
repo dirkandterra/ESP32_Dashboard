@@ -38,7 +38,8 @@ enum vfdExtras{
   vfdD3L=0x1000,
   vfdPRN=0x2000,
   vfdTrip=0x4000,
-  vfdDec=0x8000
+  vfdDec=0x8000,
+  vfdAll=0xFFFF
 };
 
 #endif
