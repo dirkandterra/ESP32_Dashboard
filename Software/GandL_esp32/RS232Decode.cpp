@@ -17,7 +17,7 @@ unsigned char lightString[2];
 char vfdString[8];
 //char vfdDimming=0xD0;
 char vfdDimming=0x02;
-SPISettings spiSettings(100000,MSBFIRST,SPI_MODE1);
+SPISettings spiSettings(1000000,MSBFIRST,SPI_MODE1);
 void VFDData(uint8_t in);
 
 //******************
@@ -36,17 +36,23 @@ void DecodeInit(){
 //-_-_-_-_-_-_-_-_ Send Dimming Info to VFD -_-_-_-_-_-_-
 void sendVFDDimming()
 {
-  Serial.print("VFDDim: ");
-  Serial.println(vfdDimming);
+  char buffer[20];
   SPI.beginTransaction(spiSettings);
   data16=0x0F00+vfdDimming;
+  SPI.transfer16(0x0000);         //First send a blank to reset the VFD's internal pointer
+  pulseVFDLoad();
   SPI.transfer16(data16);
   SPI.endTransaction();
+  sprintf(buffer,"VFD: %04X\r\n",data16);
+  Serial.print(buffer);
 	pulseVFDLoad();
 }
 //############### Send Info to VFD##################
 void senddispToVFD()
 {
+  uint16_t array[4]={0xFFFF,0xFFFF,0xFFFF,0xFFFF};
+  char buffer[30];
+  sendVFDDimming();
   datachar = 2;
   SPI.beginTransaction(spiSettings);
   SPI.transfer(datachar);
@@ -54,16 +60,17 @@ void senddispToVFD()
 	for (z=0;z<8;z++)							//there will be (8) 8 bit xfers
 	{	
     data16=0;
-    Serial.print("VFD: ");
-    Serial.println(from);
-    //Serial.println(vfdString[z],HEX);
     data16 = (vfdString[z++]<<8);
     data16 +=vfdString[z];
+    array[z/2]=data16;
 		SPI.transfer16(data16);								
     //send byte
 	}
   SPI.endTransaction();
 	pulseVFDLoad();
+  sprintf(buffer,"VFD: %04X:%04X:%04X:%04X\r\n",array[0],array[1],array[2],array[3]);
+  Serial.print(buffer);
+
 }
 
 void pulseVFDLoad()
@@ -86,16 +93,25 @@ void sendToGauges()
   data16 +=gaugeString[3]>>4;
   SPI.beginTransaction(spiSettings);
   SPI.transfer16(data16);
+  
+  //Serial.println("Check1");
+  //delay(500);
 
   data16 = (gaugeString[3]<<12)&0xFC00;
   data16 += (gaugeString[4]&0x3)<<10;
   data16 += gaugeString[5]<<2;
   data16 += gaugeString[6]&0x03;
   SPI.transfer16(data16);
+
+   // Serial.println("Check2");
+  //delay(500);
   
   datachar = gaugeString[7];
   SPI.transfer(datachar);					
   SPI.endTransaction();	
+
+  //Serial.println("Check3");
+  //delay(500);
 	gpio_set_level(G_CHIPSEL,LOW);
 }
 

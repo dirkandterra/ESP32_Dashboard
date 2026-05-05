@@ -188,9 +188,12 @@ void setup() {
   digitalWrite(AIRBAG,1);
   digitalWrite(OIL,1);
   digitalWrite(BKLIGHT,1);
+  delay(500);
   printTextToVFD("888888",0,6,J_LEFT,vfd);
+  setVfdExtra(vfdAll,1);
   setVFDDimming(0x02);
-  sendVFD(vfd);
+  sendVFD(vfd,1);
+  delay(500);
 
 //initialize eevars
   EEPROM_Read(&EE.initialized,1);
@@ -379,7 +382,7 @@ void loop() {
     }    
   }
   if(loopMillis>timerGaugeAndLights){
-    timerGaugeAndLights=loopMillis+250;
+    timerGaugeAndLights=loopMillis+50;
     updateGuages_Lights();
   }
   //#################only runs once after bootup###############
@@ -522,6 +525,13 @@ void handle232(){
         sendVFD(rx232.data,7);
       }
       break;
+    case '9':
+      if(rx232.data[1]<0x30){
+        rx232.data[1]='0';
+      }
+      rx232.data[1]-=0x30;
+      setVFDDimming(0x01*rx232.data[1]);
+      break;
     case 'A':
       sendInfo(5,232);
       break;
@@ -597,7 +607,9 @@ void clearAll(uint8_t includeBacklight){
     digitalWrite(BKLIGHT,0);
   }
   printTextToVFD("      ",0,6,J_LEFT,vfd);
-  sendVFD(vfd);
+  setVfdExtra(vfdAll,0);
+  setVFDDimming(0x02);
+  sendVFD(vfd,8);
 }
 
 void writeModeToVFD(uint32_t currentMillis){
@@ -618,7 +630,7 @@ void writeModeToVFD(uint32_t currentMillis){
           break;
       }
       setVFDDimming(0x02);
-      sendVFD(vfd);
+      sendVFD(vfd,9);
       vfdLockoutTimer=currentMillis+3000;  //Let the display show the mode for 3 seconds before changing
       vfdLockout=true;
 }

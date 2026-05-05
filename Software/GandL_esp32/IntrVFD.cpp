@@ -34,7 +34,7 @@ void clearDisp(void);
 void setVfdExtra(uint16_t symbol,uint8_t on);
 
 void setVFDDimming(uint8_t dim){
-    //vfdDimming = dim;
+    vfdDimming = dim;
     sendVFDDimming();
 }
 
@@ -176,6 +176,16 @@ uint8_t printNumToVFD(int32_t num,uint8_t start,uint8_t len,uint8_t dec,uint8_t 
 
 void setVfdExtra(uint16_t symbol,uint8_t on){
   uint8_t bit;
+  if(symbol==vfdAll){
+    if(on){
+        vfd[7]=0xFF;
+        vfd[6]=0xFD;
+    }else{
+        vfd[7]=0x00;
+        vfd[6]=0x00;
+    }
+    return;
+  }
   if(symbol>0x80){
     bit=(uint8_t)(symbol/256);
     if(on){

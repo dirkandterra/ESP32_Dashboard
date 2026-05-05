@@ -4,230 +4,203 @@
 #include "GandL.h"
 
 NodeRedData ServerData = {0,0,0,0,0,0,0,0,0,0,0,0};
-int gaugeData[25]={0,34,65,96,125,155,181,204,232,256,279,303,329,352,382,410,438,466,497,528,559,590,621,649,677};
-int gaugeData2[25]={0,23,44,62,83,102,120,138,156,176,196};
-char CBuffLen=0;
-char t0_int;// = 0x30;
-int t0_cyc=0;
+int gaugeData[25]  = {0,34,65,96,125,155,181,204,232,256,279,303,329,352,382,410,438,466,497,528,559,590,621,649,677};
+int gaugeData2[25] = {0,23,44,62,83,102,120,138,156,176,196};
+char CBuffLen = 0;
+char t0_int;
+int  t0_cyc  = 0;
 char t0_disp;
-char segrotate=1;
-char digsel=2;
-int rpmData=261;
-int mphData=261;
-int gasData=38;
-int tempData=38;
-int lightData=0;
-char mode=0;
-int oldMPH=261;
-int oldRPM=261;
-int oldGas=110;
-int oldTemp=110;
-uint8_t dectrip=0;
-uint8_t vfd_count=0;
-//261,5.25,22,41.1,61.8,80,96.5,113.5,936
+char segrotate = 1;
+char digsel    = 2;
+int  rpmData   = 261;
+int  mphData   = 261;
+int  gasData   = 38;
+int  tempData  = 38;
+int  lightData = 0;
+char mode      = 0;
+int  oldMPH    = 261;
+int  oldRPM    = 261;
+int  oldGas    = 110;
+int  oldTemp   = 110;
+uint8_t dectrip   = 0;
+uint8_t vfd_count = 0;
+
 int gypsyMath(int in);
 int gypsyMath2(int in);
 void vfdPrep(void);
 
-void sendInfo(uint8_t gauge, uint16_t value){
-	switch(gauge){
-		
-		case 0:
-			rpmData=(int)(double(value)*12/7);
-      		rpmData=gypsyMath(rpmData);
-			break;
-	
-		case 1:
-			mphData=(int)value;
-			mphData=gypsyMath(mphData);
-			break;
-		
-		case 2:
-			gasData=(int)value;
-      gasData=gypsyMath2(gasData);
-			break;
-			
-		case 3:
-			tempData=(int)value;
-      tempData=gypsyMath2(tempData);
-			break;
+void sendInfo(uint8_t gauge, uint16_t value) {
+    switch (gauge) {
+        case 0:
+            rpmData = (int)(double(value) * 12 / 7);
+            rpmData = gypsyMath(rpmData);
+            break;
 
-    case 5:
-      mphData=value;
-      break;
+        case 1:
+            mphData = (int)value;
+            mphData = gypsyMath(mphData);
+            break;
 
-		default:
-		case 4:
-			lightData=(int)value;
-			break;
-	}
+        case 2:
+            gasData = (int)value;
+            gasData = gypsyMath2(gasData);
+            break;
+
+        case 3:
+            tempData = (int)value;
+            tempData = gypsyMath2(tempData);
+            break;
+
+        case 5:
+            mphData = value;
+            break;
+
+        default:
+        case 4:
+            lightData = (int)value;
+            break;
+    }
 }
 
 //****************************************************
-void updateGuages_Lights(){
-  int diff;
+void updateGuages_Lights() {
+    int diff;
 
-  diff=rpmData-oldRPM;
-  if(oldRPM==rpmData && oldMPH==mphData && tempData==oldTemp && gasData==oldGas)
-  if (diff<100 && diff>-100) {oldRPM=rpmData;}
-  else {oldRPM=oldRPM+diff/6;}
+    diff = rpmData - oldRPM;
+    if (oldRPM != rpmData || oldMPH != mphData || tempData != oldTemp || gasData != oldGas) {
+        diff = rpmData - oldRPM;
+        if (diff < 100 && diff > -100) { oldRPM = rpmData; }
+        else                           { oldRPM = oldRPM + diff / 6; }
 
-  diff=mphData-oldMPH;
-  if (diff<100 && diff>-100) {oldMPH=mphData;}
-  else {oldMPH=oldMPH+diff/6;}
+        diff = mphData - oldMPH;
+        if (diff < 100 && diff > -100) { oldMPH = mphData; }
+        else                           { oldMPH = oldMPH + diff / 6; }
 
-  oldTemp=tempData;
-  oldGas=gasData;
+        oldTemp = tempData;
+        oldGas  = gasData;
 
-  gaugeString[0]=oldMPH/256;
-  gaugeString[1]=oldMPH%256;
-  gaugeString[2]=oldRPM/256;
-  gaugeString[3]=oldRPM%256;
-  gaugeString[4]=tempData/256;
-  gaugeString[5]=tempData%256;
-  gaugeString[6]=gasData/256;
-  gaugeString[7]=gasData%256;
-  sendToGauges();
-
-  lightString[0]=lightData/256;
-  lightString[1]=lightData%256;
-  //sendToLights();
-}
-//####################################################
-void sendVFD(uint8_t *c, uint8_t from){
-	clearDisp();
-    if(1){
-	    smarterPopulateVFD();
-    }else{
-      //populateVFD();
+        gaugeString[0] = oldMPH / 256;
+        gaugeString[1] = oldMPH % 256;
+        gaugeString[2] = oldRPM / 256;
+        gaugeString[3] = oldRPM % 256;
+        gaugeString[4] = tempData / 256;
+        gaugeString[5] = tempData % 256;
+        gaugeString[6] = gasData / 256;
+        gaugeString[7] = gasData % 256;
+        sendToGauges();
     }
-	//sendVFDDimming();
-	Serial.print("VFD: ");
+
+    lightString[0] = lightData / 256;
+    lightString[1] = lightData % 256;
+    sendToLights();
+}
+
+//####################################################
+void sendVFD(uint8_t *c, uint8_t from) {
+    clearDisp();
+    if (1) {
+        smarterPopulateVFD();
+    } else {
+        //populateVFD();
+    }
+    //sendVFDDimming();
+    Serial.print("VFD: ");
     Serial.println(from);
-	senddispToVFD();
-	vfd_count++;
-	if(vfd_count>9)
-		vfd_count=0;
+
+    senddispToVFD();
+    vfd_count++;
+    if (vfd_count > 9)
+        vfd_count = 0;
 }
 
 //####################################################
-void testVFD(uint16_t value){
-	uint8_t carry=0, oldcarry=0;
-	//clearDisp();
-	
-	if(vfdString[6]&0x80 || value)
-		oldcarry=1;
-	
-	for(int ii=0; ii<8; ii++){
-		carry=0;
-		if(vfdString[ii]&0x80){
-			carry=1;
-		}
-		vfdString[ii]<<=1;
-		if(oldcarry)
-			vfdString[ii]|=0x01;
-		else
-			vfdString[ii]&=0xFE;
-		
-		oldcarry=carry;
-	}
+void testVFD(uint16_t value) {
+    uint8_t carry = 0, oldcarry = 0;
+    //clearDisp();
 
-	sendVFDDimming();
-	senddispToVFD();
+    if (vfdString[6] & 0x80 || value)
+        oldcarry = 1;
 
+    for (int ii = 0; ii < 8; ii++) {
+        carry = 0;
+        if (vfdString[ii] & 0x80) {
+            carry = 1;
+        }
+        vfdString[ii] <<= 1;
+        if (oldcarry)
+            vfdString[ii] |= 0x01;
+        else
+            vfdString[ii] &= 0xFE;
+
+        oldcarry = carry;
+    }
+
+    sendVFDDimming();
+    senddispToVFD();
 }
 
 //####################################################
-void vfdWeatherPrep()
-{
+void vfdWeatherPrep() {
+    sendInfo(3, ServerData.precipPercent);
+    sendInfo(2, vfd_count * 10);
+    sendInfo(1, ServerData.currentTemp);
+    sendInfo(0, ServerData.currentWind * 10);
+    printNumToVFD(ServerData.forecast[vfd_count], 2, 4, 0, J_RIGHT, vfd);
 
-	sendInfo(3,ServerData.precipPercent);
-  sendInfo(2,vfd_count*10);
-  sendInfo(1,ServerData.currentTemp);
-  sendInfo(0,ServerData.currentWind*10);
-	printNumToVFD(ServerData.forecast[vfd_count],2,4,0,J_RIGHT,vfd);
+    if (vfd_count % 2 == 0) {
+        printTextToVFD("HI", 0, 2, J_LEFT, vfd);
+    } else {
+        printTextToVFD("LO", 0, 2, J_LEFT, vfd);
+    }
 
-	if(vfd_count%2==0)
-	{
-		 printTextToVFD("HI",0,2,J_LEFT,vfd);
-	}
-
-	else
-	{
-    printTextToVFD("LO",0,2,J_LEFT,vfd);
-	}
-
-		// Set Trans select to show day and light up "PRN D3L"
-	if (vfd_count<2)
-	{
-		setVfdExtra(vfdPRN,1);
-    setVfdExtra(vfdD3L,1);
-    setVfdExtra(vfdLow,0);
-    setVfdExtra(vfd3,0);
-    setVfdExtra(vfdD,0);
-    setVfdExtra(vfdN,0);
-    setVfdExtra(vfdR,0);
-		setVfdExtra(vfdP,1);
-	}
-		else if (vfd_count<4)
-	{
-		setVfdExtra(vfdPRN,1);
-    setVfdExtra(vfdD3L,1);
-		setVfdExtra(vfdP,0);
-    setVfdExtra(vfdR,1);
-	}
-	else if (vfd_count<6)
-	{
-		setVfdExtra(vfdPRN,1);
-    setVfdExtra(vfdD3L,1);
-		setVfdExtra(vfdR,0);
-    setVfdExtra(vfdN,1);
-	}
-	else if(vfd_count<8)
-	{
-		setVfdExtra(vfdPRN,1);
-    setVfdExtra(vfdD3L,1);
-		setVfdExtra(vfdN,0);
-    setVfdExtra(vfdD,1);
-	}else{
-		setVfdExtra(vfdPRN,1);
-    setVfdExtra(vfdD3L,1);
-		setVfdExtra(vfdD,0);
-    setVfdExtra(vfd3,1);   
-  }
-      /*Serial.print(vfd[5],HEX);
-      Serial.print(vfd[4],HEX);
-      Serial.print(vfd[3],HEX);
-      Serial.print(vfd[2],HEX);
-      Serial.print(vfd[1],HEX);
-      Serial.println(vfd[0],HEX);	*/
-
+    if (vfd_count < 2) {
+        setVfdExtra(vfdPRN, 1);
+        setVfdExtra(vfdD3L, 1);
+        setVfdExtra(vfdLow, 0);
+        setVfdExtra(vfd3,   0);
+        setVfdExtra(vfdD,   0);
+        setVfdExtra(vfdN,   0);
+        setVfdExtra(vfdR,   0);
+        setVfdExtra(vfdP,   1);
+    } else if (vfd_count < 4) {
+        setVfdExtra(vfdPRN, 1);
+        setVfdExtra(vfdD3L, 1);
+        setVfdExtra(vfdP,   0);
+        setVfdExtra(vfdR,   1);
+    } else if (vfd_count < 6) {
+        setVfdExtra(vfdPRN, 1);
+        setVfdExtra(vfdD3L, 1);
+        setVfdExtra(vfdR,   0);
+        setVfdExtra(vfdN,   1);
+    } else if (vfd_count < 8) {
+        setVfdExtra(vfdPRN, 1);
+        setVfdExtra(vfdD3L, 1);
+        setVfdExtra(vfdN,   0);
+        setVfdExtra(vfdD,   1);
+    } else {
+        setVfdExtra(vfdPRN, 1);
+        setVfdExtra(vfdD3L, 1);
+        setVfdExtra(vfdD,   0);
+        setVfdExtra(vfd3,   1);
+    }
 }
 
-int gypsyMath(int in)
-{
-if (in>=1200)
-	{
-		return 937;	//676+261
-	}
-	else
-	{
-		int i=in/50;
-		i=((in%50)*(gaugeData[i+1]-gaugeData[i]))/50 +gaugeData[i];
-		return (i+261);
-	}
+int gypsyMath(int in) {
+    if (in >= 1200) {
+        return 937;  //676+261
+    } else {
+        int i = in / 50;
+        i = ((in % 50) * (gaugeData[i+1] - gaugeData[i])) / 50 + gaugeData[i];
+        return (i + 261);
+    }
 }
 
-int gypsyMath2(int in)
-{
-if (in>=100)
-  {
-    return 227;  //33+192
-  }
-  else
-  {
-    int i=in/10;
-    i=((in%10)*(gaugeData2[i+1]-gaugeData2[i]))/10 +gaugeData2[i];
-    return (i+33);
-  }
+int gypsyMath2(int in) {
+    if (in >= 100) {
+        return 227;  //33+192
+    } else {
+        int i = in / 10;
+        i = ((in % 10) * (gaugeData2[i+1] - gaugeData2[i])) / 10 + gaugeData2[i];
+        return (i + 33);
+    }
 }
