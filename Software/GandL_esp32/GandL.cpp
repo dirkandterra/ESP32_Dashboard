@@ -20,9 +20,11 @@ int lightData=0;
 char mode=0;
 int oldMPH=261;
 int oldRPM=261;
+int oldGas=110;
+int  oldTemp   = 110;
 uint8_t dectrip=0;
 uint8_t vfd_count=0;
-//261,5.25,22,41.1,61.8,80,96.5,113.5,936
+
 int gypsyMath(int in);
 int gypsyMath2(int in);
 void vfdPrep(void);
@@ -66,6 +68,8 @@ void updateGuages_Lights(){
   int diff;
 
   diff=rpmData-oldRPM;
+    if (oldRPM != rpmData || oldMPH != mphData || tempData != oldTemp || gasData != oldGas) {
+        diff = rpmData - oldRPM;
   if (diff<100 && diff>-100) {oldRPM=rpmData;}
   else {oldRPM=oldRPM+diff/6;}
 
@@ -73,6 +77,8 @@ void updateGuages_Lights(){
   if (diff<100 && diff>-100) {oldMPH=mphData;}
   else {oldMPH=oldMPH+diff/6;}
 
+        oldTemp = tempData;
+        oldGas  = gasData;
 
   gaugeString[0]=oldMPH/256;
   gaugeString[1]=oldMPH%256;
@@ -83,6 +89,7 @@ void updateGuages_Lights(){
   gaugeString[6]=gasData/256;
   gaugeString[7]=gasData%256;
   sendToGauges();
+    }
 
   lightString[0]=lightData/256;
   lightString[1]=lightData%256;
@@ -96,7 +103,7 @@ void sendVFD(uint8_t *c){
     }else{
       //populateVFD();
     }
-	//sendVFDDimming();
+
 	senddispToVFD();
 	vfd_count++;
 	if(vfd_count>9)
@@ -131,53 +138,40 @@ void testVFD(uint16_t value){
 }
 
 //####################################################
-void vfdWeatherPrep()
-{
-
+void vfdWeatherPrep() {
 	sendInfo(3,ServerData.precipPercent);
   sendInfo(2,vfd_count*10);
   sendInfo(1,ServerData.currentTemp);
   sendInfo(0,ServerData.currentWind*10);
 	printNumToVFD(ServerData.forecast[vfd_count],2,4,0,J_RIGHT,vfd);
 
-	if(vfd_count%2==0)
-	{
+    if (vfd_count % 2 == 0) {
 		 printTextToVFD("HI",0,2,J_LEFT,vfd);
-	}
-
-	else
-	{
+    } else {
     printTextToVFD("LO",0,2,J_LEFT,vfd);
 	}
 
 		// Set Trans select to show day and light up "PRN D3L"
-	if (vfd_count<2)
-	{
+	if (vfd_count<2) {
 		setVfdExtra(vfdPRN,1);
-    setVfdExtra(vfdD3L,1);
-    setVfdExtra(vfdLow,0);
-    setVfdExtra(vfd3,0);
-    setVfdExtra(vfdD,0);
-    setVfdExtra(vfdN,0);
-    setVfdExtra(vfdR,0);
+	    setVfdExtra(vfdD3L,1);
+	    setVfdExtra(vfdLow,0);
+	    setVfdExtra(vfd3,0);
+	    setVfdExtra(vfdD,0);
+	    setVfdExtra(vfdN,0);
+	    setVfdExtra(vfdR,0);
 		setVfdExtra(vfdP,1);
-	}
-		else if (vfd_count<4)
-	{
+    } else if (vfd_count < 4) {
 		setVfdExtra(vfdPRN,1);
-    setVfdExtra(vfdD3L,1);
+    	setVfdExtra(vfdD3L,1);
 		setVfdExtra(vfdP,0);
-    setVfdExtra(vfdR,1);
-	}
-	else if (vfd_count<6)
-	{
+    	setVfdExtra(vfdR,1);
+    } else if (vfd_count < 6) {
 		setVfdExtra(vfdPRN,1);
     setVfdExtra(vfdD3L,1);
 		setVfdExtra(vfdR,0);
     setVfdExtra(vfdN,1);
-	}
-	else if(vfd_count<8)
-	{
+    } else if (vfd_count < 8) {
 		setVfdExtra(vfdPRN,1);
     setVfdExtra(vfdD3L,1);
 		setVfdExtra(vfdN,0);
@@ -188,37 +182,22 @@ void vfdWeatherPrep()
 		setVfdExtra(vfdD,0);
     setVfdExtra(vfd3,1);   
   }
-      /*Serial.print(vfd[5],HEX);
-      Serial.print(vfd[4],HEX);
-      Serial.print(vfd[3],HEX);
-      Serial.print(vfd[2],HEX);
-      Serial.print(vfd[1],HEX);
-      Serial.println(vfd[0],HEX);	*/
-
 }
 
-int gypsyMath(int in)
-{
-if (in>=1200)
-	{
+int gypsyMath(int in) {
+    if (in >= 1200) {
 		return 937;	//676+261
-	}
-	else
-	{
+    } else {
 		int i=in/50;
 		i=((in%50)*(gaugeData[i+1]-gaugeData[i]))/50 +gaugeData[i];
 		return (i+261);
 	}
 }
 
-int gypsyMath2(int in)
-{
-if (in>=100)
-  {
+int gypsyMath2(int in) {
+    if (in >= 100) {
     return 227;  //33+192
-  }
-  else
-  {
+    } else {
     int i=in/10;
     i=((in%10)*(gaugeData2[i+1]-gaugeData2[i]))/10 +gaugeData2[i];
     return (i+33);
